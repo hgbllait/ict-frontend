@@ -1,4 +1,4 @@
-<div *ngIf="verified; else FormDocument" class="container-fluid page-body-wrapper full-page-wrapper">
+<div *ngIf="page_alert.shown; then FormError else FormDocument" class="container-fluid page-body-wrapper full-page-wrapper">
   <div class="content-wrapper d-flex align-items-center auth">
     <div class="row w-100">
       <div class="col-lg-4 mx-auto">
