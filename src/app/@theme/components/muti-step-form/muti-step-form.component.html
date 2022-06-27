@@ -1,0 +1,16 @@
+<div class="wizard clearfix vertical">
+  <div class="steps clearfix">
+    <ul role="tablist">
+      <ng-container *ngFor="let result of formData; let i=index">
+        <li role="tab" class="disabled step-item {{step == i ? 'current': ''}}">
+          <a href="javascript:void(0);">
+            <span class="number">{{i+1}}.</span> {{result.title}}</a>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <ng-container *ngIf="!!currentView">
+    <ng-content *ngTemplateOutlet="currentView; context: {$implicit: formData[step], nextStepHandle: nextStepHandle, backStepHandle: backStepHandle}"></ng-content>
+  </ng-container>
+</div>

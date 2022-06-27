@@ -1,0 +1,86 @@
+<div *ngIf="page_alert.shown" class="alert alert-{{page_alert.type}}" role="alert">
+  {{page_alert.messages}}
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body home-tab">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="card-title">List of Flow Control Request</h4>
+        </div>
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table hover">
+            <thead>
+            <tr>
+              <th>Form Name</th>
+              <th>Total Signatories</th>
+              <th>Total Pending</th>
+              <th>Progress</th>
+              <th>Approval Status</th>
+              <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="flow_control_requests?.length != 0">
+            <tr *ngFor="let result of flow_control_requests">
+              <td>{{ result.forms.name }}</td>
+              <td>{{ result.status.all }}</td>
+              <td>{{ result.status.pending }}</td>
+              <td>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+                    <p class="text-success">{{result.status.percentage}}%</p>
+                    <p>{{ result.status.approved + result.status.rejected }}/{{ result.status.all }}</p>
+                  </div>
+                  <div class="progress progress-md">
+                    <div class="progress-bar bg-success" role="progressbar" style="width:{{result.status.percentage}}%"></div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                {{result.approval_status}}
+              </td>
+              <td>
+                <button class="btn btn-lg btn-outline-primary" (click)="handleAction({action: 'table_view', value:result.status.approver})">View Signatories</button>
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="flow_control_requests?.length == 0">
+            <tr>
+              <td colspan="3" class="no-data-available">No data available</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #flow_control_request let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{modalTitle}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="form_alert.shown" class="alert alert-danger" role="alert">
+      {{form_alert.messages}}
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <ul *ngIf="approvers?.length != 0" class="bullet-line-list">
+          <li *ngFor="let data of approvers">
+            <h6>{{data.name}}</h6>
+            <p class="mb-0">{{data.email}}</p>
+            <p>{{data.link}}</p>
+            <div class="badge badge-opacity-{{data.type}}"><i class="{{data.icon}}"></i> {{data.status}}</div>
+            <div class="mb-3" role="group">
+              <a *ngIf="data.request_status == 'false'" (click)="handleAction({action: 'approver_approve', value: data.id, data: data})" type="button" class="fw-bold" style="margin-right: .5em!important;">Override Approve</a>
+              <a (click)="handleAction({action: 'approver_notify', value: data.id, data: data})" type="button" class="fw-bold" style="margin-right: .5em!important;">Notify</a>
+              <a (click)="handleAction({action: 'approver_change_password', value: data.id, data: data})" type="button" class="fw-bold" style="margin-right: .5em!important;">Change Password</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-template>

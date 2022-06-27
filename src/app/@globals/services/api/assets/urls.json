@@ -1,0 +1,24 @@
+[
+  {
+    "prefix": "assets",
+    "slug": "assets",
+    "children": [
+      {
+        "prefix": "json",
+        "slug": "json",
+        "children": [
+          {
+            "prefix": "nationalities.json",
+            "slug": "nation",
+            "method": "GET"
+          },
+          {
+            "prefix": "errors.json",
+            "slug": "errors",
+            "method": "GET"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,93 @@
+<div class="horizontal-menu">
+  <nav *ngIf="active_user" class="navbar top-navbar col-lg-12 col-12 p-0">
+    <div class="container">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start me-lg-3">
+        <div>
+          <a class="navbar-brand brand-logo" href="index.html">
+            <h3 class="text-white">{{title}}</h3>
+          </a>
+          <a class="navbar-brand brand-logo-mini" href="index.html">
+            <h3 class="text-white">{{title}}</h3>
+          </a>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item dropdown  d-none d-lg-flex">
+            <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="selectDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false"> Select Form Type </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="selectDropdown">
+              <a class="dropdown-item py-3">
+                <p class="mb-0 font-weight-medium float-left">Empty</p>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link count-indicator" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="icon-bell"></i>
+              <span class="count"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
+              <a class="dropdown-item py-3">
+                <p class="mb-0 font-weight-medium float-left">You have 0 unread mails </p>
+                <span class="badge badge-pill badge-primary float-right">Empty</span>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item dropdown  d-none d-lg-flex user-dropdown">
+            <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+              <img class="img-xs rounded-circle" src="assets/images/faces/default_avatar.jpg" alt="Profile image"> </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                <div class="dropdown-header text-center">
+                  <img class="img-md rounded-circle" src="assets/images/faces/default_avatar.jpg" alt="Profile image">
+                  <p class="mb-1 mt-3 font-weight-semibold">{{active_user.full_name}}</p>
+                  <p class="fw-light text-muted mb-0">{{active_user.email}}</p>
+                </div>
+                <a class="dropdown-item" [routerLink]="['/pages/profile']"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>
+                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
+                <a class="dropdown-item" (click)="logout()"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+              </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
+          <span class="ti-menu"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <nav class="bottom-navbar">
+    <div class="container">
+      <ul class="nav page-navigation">
+        <li class="nav-item" [routerLinkActive]="['active']" >
+          <a class="nav-link" [routerLink]="['/pages/dashboard']"  href="">
+            <i class="icon-grid menu-icon"></i>
+            <span class="menu-title">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']" >
+          <a class="nav-link" [routerLink]="['/pages/form-request']"  href="">
+            <i class="icon-book-open menu-icon"></i>
+            <span class="menu-title">Form</span>
+          </a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']" >
+          <a class="nav-link" [routerLink]="['/pages/flow-control-request']"  href="">
+            <i class="icon-shield menu-icon"></i>
+            <span class="menu-title">Flow Control Request</span>
+          </a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']" >
+          <a class="nav-link" [routerLink]="['/pages/approvers']"  href="">
+            <i class="icon-user-following menu-icon"></i>
+            <span class="menu-title">List of Signatories</span>
+          </a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']" >
+          <a class="nav-link" [routerLink]="['/pages/management']"  href="">
+            <i class="icon-people menu-icon"></i>
+            <span class="menu-title">Management</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

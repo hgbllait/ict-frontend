@@ -1,0 +1,18 @@
+<div *ngIf="enable" class="border-primary border">
+  <div class="card-body">
+    <h4 class="card-title">{{ form.title ? form.title : '' }}</h4>
+    <p class="card-description">
+      Leave blank if not applicable
+    </p>
+    <form>
+      <div *ngFor="let buildConfig of dynamicFormBuildConfig.controlsConfig[form.name];let i=index;">
+        <div viewMode="advance" [rxwebDynamicForm]="{controlsConfig:buildConfig,formGroup:dynamicFormBuildConfig.formGroup.controls[form.name].controls[i]}" [uiBindings]="form.bindings">
+        </div>
+        <div class="template-demo mb-4">
+          <button class="btn btn-primary" (click)="_addItem(i)">Add</button>
+          <button class="btn btn-inverse-primary remove-form" (click)="removeItem(i)">Remove</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

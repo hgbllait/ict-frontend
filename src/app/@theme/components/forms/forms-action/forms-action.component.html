@@ -1,0 +1,12 @@
+<div class="mt-5">
+    <ng-template ngFor let-button [ngForOf]="actions | keyvalue: returnZero">
+        <button
+                *ngIf="button.value.display"
+                (click)='getAction(button.value)'
+                size="{{ button.value.size }}"
+                class="btn btn-{{button.value.status}} {{button.value.class}} {{button.value.icon?'btn-icon-text':''}}">
+            <i *ngIf="button.value.icon" class="{{ button.value.icon }}"></i>
+            {{ button.value.text }}
+        </button>
+    </ng-template>
+</div>

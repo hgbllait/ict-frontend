@@ -1,0 +1,196 @@
+<div *ngIf="isPage" class="home-tab d-sm-flex align-items-center justify-content-between border-bottom">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+    </li>
+  </ul>
+  <div>
+    <div class="btn-wrapper">
+      <button *ngIf="requestApproverId && isServiceRequest" (click)="handleAction({action: 'approver_approve', value: 'submit', data: { id: requestApproverId, flow_control_request_id: requestId }})" class="btn btn-info me-0" href="javascript:void(0);">Submit Request</button>
+      <a *ngIf="isContinuation" [routerLink]="['/pages/form-request/view', id, 'create']"  href="" target="_blank" class="btn btn-primary text-white me-0">Process Request</a>
+      <a *ngIf="jobOrderId && jobOrderNo" [routerLink]="['/pages/document', jobOrderNo]"  href="" class="btn btn-outline-dark me-1" target="_blank"><i class="icon-printer"></i> Print</a>
+      <a *ngIf="jobOrderId && jobOrderNo" [routerLink]="['/pages/form-request/view', jobOrderId]"  href="" class="btn btn-warning text-white me-0" target="_blank">{{jobOrderNo}}</a>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!page_alert.shown; else FormError">
+  <div class="email-wrapper wrapper">
+    <div class="row align-items-stretch">
+      <div class="mail-sidebar d-none d-lg-block col-md-2 pt-3 bg-white">
+        <div class="menu-bar">
+          <div class="wrapper home-tab">
+            <div class="online-status d-flex justify-content-between align-items-center">
+              <h4 class="chat">Signatory list</h4>
+              <div *ngIf="isFormPending && userId && isPage" class="add-items d-flex mb-0">
+                <button (click)="onClickSignatory()"  class="add btn btn-icons btn-rounded btn-primary todo-list-add-btn text-white me-0 pl-12p">
+                  <i class="mdi mdi-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <ul *ngIf="approvers" class="profile-list">
+            <li *ngFor="let data of approvers" class="profile-list-item">
+              <a (click)="handleAction({action: 'approver_approve', value: data.approval_status, data: data})" type="button">
+                <span class="pro-pic">
+                      <img *ngIf="data.approval_status == 'approved'" src="../../../assets/images/status/approved.png" alt="">
+                      <img *ngIf="data.approval_status == 'rejected'" src="../../../assets/images/status/rejected.png" alt="">
+                      <img *ngIf="data.approval_status == 'false'" src="../../../assets/images/status/pending.png" alt="">
+                </span>
+                <div class="user">
+                  <p class="u-name text-primary">{{data.approver.name}}</p>
+                  <p class="u-designation">{{data.approver.email}}</p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mail-view d-none d-md-block col-md-10 col-lg-10 bg-white">
+        <div class="row">
+          <div class="col-md-12 mt-4">
+            <div *ngIf="form_alert.shown" class="alert alert-{{form_alert.type}}" role="alert">
+              {{form_alert.messages}}
+            </div>
+          </div>
+        </div>
+        <div class="message-body">
+          <div class="template-demo mb-3" *ngIf="status.shown">
+            <div class="d-flex justify-content-between mt-2">
+              <small>Request {{ status.approval }}</small>
+              <small>{{status.percentage}}%</small>
+            </div>
+            <div class="progress progress-sm mt-2">
+              <div class="progress-bar bg-primary" role="progressbar" style="width:{{status.percentage}}%"></div>
+            </div>
+          </div>
+          <ng-container *ngIf="isPaperless; else throughpaper">
+            <ejs-documenteditorcontainer
+              id="document_editor"
+              #documenteditor_ref
+              [enableToolbar]="true"
+              [toolbarItems]="toolbarItems"
+              [restrictEditing]="true"
+              [serviceUrl]='serviceLink'
+              [enableSpellCheck]=true
+              (created)="onCreate()"
+              (documentChange)="onDocumentChange()"
+              style="display:block" height="650">
+            </ejs-documenteditorcontainer>
+          </ng-container>
+          <ng-template #throughpaper>
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title mb-1">{{forms.name}} - {{ forms.type.name}}</div>
+                <p *ngIf="formState2" class="text-muted mb-3">File Link: {{forms.form_link}}</p>
+                <ngx-theme-forms *ngIf="formState2"
+                                 [data]='form_view.data'
+                                 [form]="form_view.field"></ngx-theme-forms>
+                <div *ngIf="hasMaterials"  class="card border border-primary mt-2">
+                  <div class="card-body">
+                    <div class="d-sm-flex justify-content-between align-items-start">
+                      <div>
+                        <h4 class="card-title card-title-dash">{{multiData.name | titlecase}}</h4>
+                      </div>
+                    </div>
+                    <div class="table-responsive  mt-1">
+                      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table hover">
+                        <thead>
+                        <tr>
+                          <ng-container *ngFor="let result of multiData.title">
+                            <th>{{result | titlecase}}</th>
+                          </ng-container>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="multiData?.data.length != 0">
+                        <tr *ngFor="let data of multiData.data">
+                          <ng-container *ngFor="let key of multiData.data_key">
+                            <td>{{ data[key] }}</td>
+                          </ng-container>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="multiData?.data.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No data available</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="theme-setting-wrapper">
+      <div *ngIf="!isFormPending && isPaperless" id="printer-trigger" (click)="onPrint()" data-toggle="tooltip" data-placement="top" title="Print">
+        <i class="ti-printer"></i>
+      </div>
+      <div *ngIf="!isFormPending && isPaperless" id="download-trigger" (click)="onDownload()" data-toggle="tooltip" data-placement="top" title="Download">
+        <i class="ti-import"></i>
+      </div>
+      <div *ngIf="isFormPending && userId" id="settings-trigger" (click)="onClickForm()" data-toggle="tooltip" data-placement="top" title="Update Form">
+        <i class="ti-settings"></i>
+      </div>
+      <div *ngIf="isFormPending && userId" id="theme-settings" class="settings-panel">
+        <div class="modal-header header sticky">
+          <h5 class="modal-title">Form - Update</h5>
+          <div class="button-group">
+            <button type="button" (click)="onUpdate()" class="btn btn-primary btn-fw close btn-sm {{form.group.invalid ? 'disabled' : ''}}">
+              <span aria-hidden="true">Update</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-dark" (click)="onCloseForm()">
+              <span aria-hidden="true">-</span>
+            </button>
+          </div>
+        </div>
+        <div class="card card-scrolalble">
+          <div class="card-body">
+            <ng-container *ngIf="formState">
+              <ngx-theme-forms
+                [data]='form.data'
+                [form]="form.field"
+                (actionExecuted)='handleAction( $event )'
+                (dataChanges)='handleData( $event )'></ngx-theme-forms>
+              <theme-nested-form *ngIf="hasMaterials"
+                                 [data]='form.data_array'
+                                 [form]="form.field_array"
+                                 (dataChanges)='handleData( $event, "nested" )'></theme-nested-form>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isFormPending && userId" id="signatory-settings" class="settings-panel">
+        <div class="modal-header header sticky">
+          <h5 class="modal-title">Signatory - Update</h5>
+          <div class="button-group">
+            <button type="button" (click)="onSignatoryUpdate()" class="btn btn-primary btn-fw close btn-sm {{form_signatory.group.invalid ? 'disabled' : ''}}">
+              <span aria-hidden="true">Update</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-dark" (click)="onCloseForm()">
+              <span aria-hidden="true">-</span>
+            </button>
+          </div>
+        </div>
+        <div class="card card-scrolalble">
+          <div class="card-body">
+            <ng-container *ngIf="formState">
+              <ngx-theme-forms
+                [data]='form_signatory.data'
+                [form]="form_signatory.field"
+                (actionExecuted)='handleAction( $event )'
+                (dataChanges)='handleData( $event, "signatory" )'></ngx-theme-forms>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #FormError>
+  <div class="alert alert-danger" role="alert">
+    {{page_alert.messages}}
+  </div>
+</ng-template>

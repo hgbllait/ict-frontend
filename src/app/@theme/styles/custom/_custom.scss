@@ -1,0 +1,78 @@
+.table-responsive {
+  overflow: hidden !important;
+}
+
+.pagination .page-item.active .page-link,
+.pagination .page-item:hover .page-link {
+  color: #ffffff !important;
+}
+
+.pagination .page-item .page-link {
+  color: maroon !important;
+}
+
+.form-control:focus, .typeahead:focus,
+.dataTables_wrapper select:focus{
+  box-shadow: none !important;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: maroon !important;
+}
+
+.wizard > .steps .done a:hover {
+  background: gray !important;
+  color: #ffffff;
+}
+
+.wizard > .actions .disabled a:hover, .btn-secondary:focus, .wizard > .actions .disabled a:focus {
+  background: gray !important;
+  color: #ffffff;
+}
+
+.wizard > .content {
+  min-height: 29em !important;
+}
+
+textarea.form-control  {
+  height: auto !important;
+}
+
+select.form-control {
+  color: black !important;
+}
+
+.text-primary {
+  color: maroon !important
+}
+
+/* -----  Form Check ------- */
+
+.form-check {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.form-check .form-check-label {
+  margin-left:.5rem !important;
+  line-height: 1.9 !important;
+}
+
+.form-check .form-check-input {
+  float: left;
+  margin-left: 0 !important;
+}
+
+.form-check-input:checked {
+  background-color: maroon !important;
+  border-color: maroon !important;
+}
+
+.email-wrapper .mail-sidebar .menu-bar .profile-list-item a .user .u-name,
+.email-wrapper .mail-sidebar .menu-bar .profile-list-item a .user .u-designation {
+  width: 135px !important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: maroon !important;
+}

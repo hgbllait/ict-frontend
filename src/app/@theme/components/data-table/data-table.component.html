@@ -1,0 +1,33 @@
+<div class="table-responsive">
+  <table datatable [dtOptions]="optionsTable" [dtTrigger]="updateFilterTrigger" class="table hover">
+    <thead>
+    <tr>
+      <th>Alias</th>
+      <th>Equipment</th>
+      <th>Property/Serial No.</th>
+      <th>Brand/Model</th>
+      <th>Location</th>
+      <th>Created At</th>
+      <th class="text-center">Actions</th>
+    </tr>
+    </thead>
+    <tbody *ngIf="equipments?.length != 0">
+    <tr *ngFor="let result of equipments">
+      <td>{{ result.alias | titlecase }}</td>
+      <td>{{ result.equipment }}</td>
+      <td>{{ result.serial_no }}</td>
+      <td>{{ result.brand }}</td>
+      <td>{{ result.location }}</td>
+      <td>{{ result.created_at | dateFromNow: 'MMM dd, yyyy hh:mm a' }}</td>
+      <td>
+        <button class="btn btn-lg btn-outline-primary" (click)="actionMade({action: 'table_choose_equipment', value:result.id, data: result})">Choose</button>
+      </td>
+    </tr>
+    </tbody>
+    <tbody *ngIf="equipments?.length == 0">
+    <tr>
+      <td colspan="3" class="no-data-available">No data available</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

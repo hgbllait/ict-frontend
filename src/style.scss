@@ -1,0 +1,29 @@
+@import "app/@theme/styles/custom/custom";
+
+// regular style toast
+@import 'node_modules/ngx-toastr/toastr';
+@import "node_modules/compass-mixins/lib/compass";
+@import "node_modules/compass-mixins/lib/animate";
+@import "node_modules/simple-line-icons/scss/simple-line-icons";
+@import "node_modules/bootstrap/dist/css/bootstrap.min";
+@import "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min";
+
+@import "app/@theme/styles/layout/light/style";
+
+@import "app/@theme/vendors/mdi/css/materialdesignicons.min.css";
+@import "app/@theme/vendors/feather/feather.css";
+@import "app/@theme/vendors/ti-icons/css/themify-icons.css";
+@import "app/@theme/vendors/typicons/typicons.css";
+@import "app/@theme/vendors/datatable/css/responsive";
+
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-angular-documenteditor/styles/material.css';
+
+@import '../node_modules/jquery-ui-dist/jquery-ui.min.css';

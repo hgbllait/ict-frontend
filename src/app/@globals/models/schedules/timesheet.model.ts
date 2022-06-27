@@ -1,0 +1,27 @@
+export class Timesheet {
+    constructor(
+        actual_days: number,
+        actual_hours: number,
+        created_at: Date,
+        created_by: string,
+        deleted_by: string,
+        entity_id: number,
+        entity_name: string,
+        id: number,
+        id_hash: string,
+        month: number,
+        period_end: Date,
+        period_start: Date,
+        prepared_by: string,
+        remarks: string,
+        schedule_id: number,
+        scheduled_days: number,
+        scheduled_hours: number,
+        sheet_status: string,
+        status: string,
+        tenant_id: number,
+        updated_at: Date,
+        updated_by: string,
+        year: number,
+    ) { }
+}

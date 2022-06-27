@@ -1,0 +1,10 @@
+<section class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <input (change)="onFileSelected($event)" type="file" class="dropify" data-height="300" data-allowed-file-extensions="png jpg jpeg">
+    </div>
+    <div class="col-6 mt-3">
+      <button class="btn btn-block btn-primary" (click)="upload()" [disabled]="disabled">Create</button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "default",
+    "children" : [
+      {
+        "code": 500,
+        "message" : "Something went wrong.",
+        "slug": "error"
+      }
+    ]
+  },
+  {
+    "slug": "signup",
+    "children" : [
+      {
+        "slug": "devices",
+        "children" : [
+          {
+            "code": 500,
+            "message" : "Something went wrong in the end user device API.",
+            "slug": "end_user"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "test",
+    "children" : [
+      {
+        "code": 500,
+        "message" : "Something went wrong first.",
+        "slug": "first"
+      }
+    ]
+  }
+]

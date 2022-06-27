@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-3">
+        <ul class="nav nav-pills nav-pills-vertical nav-pills-primary" role="tablist" aria-orientation="vertical">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="pill" href="#v-pills-draw" role="tab" aria-controls="v-pills-draw" aria-selected="false">
+              Draw
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#v-pills-upload" role="tab" aria-controls="v-pills-upload" aria-selected="true">
+              Upload
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-8">
+        <div class="tab-content tab-content-vertical" id="v-pills-tabContent">
+          <div class="tab-pane fade active show" id="v-pills-draw" role="tabpanel">
+            <ngx-theme-signature-pad></ngx-theme-signature-pad>
+          </div>
+          <div class="tab-pane fade" id="v-pills-upload" role="tabpanel">
+            <ngx-theme-file-upload></ngx-theme-file-upload>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,162 @@
+<div *ngIf="!verified; else FormDocument" class="container-fluid page-body-wrapper full-page-wrapper">
+  <div class="content-wrapper d-flex align-items-center auth">
+    <div class="row w-100">
+      <div class="col-lg-4 mx-auto">
+        <div class="text-left p-5 text-center" style="border: 1px solid maroon;">
+          <img src="assets/images/logo/usep.png" class="lock-profile-img" alt="img">
+          <div *ngIf="page_alert.shown; then FormError else FormVerification">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #FormVerification>
+  <form (ngSubmit)="onVerify()" [formGroup]="loginForm" class="pt-5">
+    <div *ngIf="form_alert.shown" class="alert alert-danger" role="alert">
+      {{form_alert.messages}}
+    </div>
+    <div class="form-group">
+      <label>Enter password to unlock form</label>
+      <div class="input-group">
+        <input formControlName="password"
+               name="password"
+               [type]="showPassword ? 'text' : 'password'" class="text-center form-control form-control-lg" placeholder="Password"/>
+        <div class="input-group-append" (click)="changeFieldType()">
+          <i class="btn-primary input-group-text mdi {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}"></i>
+        </div>
+      </div>
+      <label *ngIf="submitted && loginForm.controls['password'].errors"
+             class="error mt-2 text-danger">
+        <ng-container *ngIf="submitted && loginForm.controls['password'].errors.required">This field is required.
+        </ng-container>
+      </label>
+    </div>
+    <div class="mt-5">
+      <a type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium" (click)="onVerify()">Unlock</a>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #FormDocument>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div *ngIf="stateChange" class="container">
+        <div class="email-wrapper wrapper">
+          <div class="row align-items-stretch">
+            <div class="mail-view d-none d-md-block col-md-12 col-lg-12 bg-white justify-content-end">
+              <div class="row">
+                <div class="col-md-12 mt-3">
+                  <div class="btn-toolbar justify-content-end" *ngIf="isFormPending">
+                    <div class="btn-group">
+                      <button type="button" (click)="onClickForm()" class="btn btn-sm btn-outline-secondary text-black">
+                        <i class="ti-stamp text-primary me-1"></i> Sign
+                      </button>
+                      <button type="button" (click)="onClickSignature()" class="btn btn-sm btn-outline-secondary text-black">
+                        <i class="ti-pencil-alt text-primary me-1"></i> Signature
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <pg-form-request-view [id]="formId" [userId]="userId" [isPage]="false"></pg-form-request-view>
+        <div class="theme-setting-wrapper" *ngIf="isFormPending">
+          <div id="signature-settings" class="settings-panel" style="z-index: 999;">
+            <div class="modal-header header sticky">
+              <h5 class="modal-title">Form Actions</h5>
+              <div class="button-group">
+                <button type="button" (click)="onUpdate()" class="btn btn-primary btn-fw close btn-sm {{dynamicFormBuildConfig.formGroup.invalid || defaultESig == null ? 'disabled' : ''}}">
+                  <span aria-hidden="true">Submit</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-dark" (click)="onCloseForm()">
+                  <span aria-hidden="true">-</span>
+                </button>
+              </div>
+            </div>
+            <div class="card card-scrolalble">
+              <div class="card-body">
+                <div *ngIf="form_alert.shown" class="alert alert-{{form_alert.type}}" role="alert">
+                  {{form_alert.messages}}
+                </div>
+                <ng-container *ngIf="open">
+                  <form [formGroup]="dynamicFormBuildConfig.formGroup">
+                    <div viewMode="basic" [rxwebDynamicForm]="dynamicFormBuildConfig" [uiBindings]="uiBindings">
+                    </div>
+                  </form>
+                  <div class="form-group" data-rxwebid="9">
+                    <label>Signature</label>
+                    <div class="dropify-wrapper" style="height: 314px;" (click)="onClickSignature()">
+                      <div class="dropify-message">
+                         <span class="file-icon">
+                            <p>Click to create a signature</p>
+                         </span>
+                        <p class="dropify-error">Ooops, something wrong happended.</p>
+                      </div>
+                      <div class="dropify-loader"></div>
+                      <div class="dropify-errors-container"></div>
+                      <div class="dropify-preview" style="display:{{defaultESig !== null ? 'block' : 'none'}};">
+                          <span class="dropify-render">
+                            <img src="{{defaultESig}}"></span>
+                        <div class="dropify-infos">
+                          <div class="dropify-infos-inner">
+                            <p class="dropify-filename"><span class="dropify-filename-inner"></span></p>
+                            <p class="dropify-infos-message">Drag and drop or click to replace</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #FormError>
+  <div class="alert alert-danger mt-4" role="alert">
+    {{page_alert.messages}}
+  </div>
+</ng-template>
+
+<ng-template #signature let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">E Signature</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-3">
+        <ul class="nav nav-pills nav-pills-vertical nav-pills-primary" role="tablist" aria-orientation="vertical">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="pill" href="#v-pills-draw" role="tab" aria-controls="v-pills-draw" aria-selected="false">
+              Draw
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#v-pills-upload" role="tab" aria-controls="v-pills-upload" aria-selected="true">
+              Upload
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-8">
+        <div class="tab-content tab-content-vertical" id="v-pills-tabContent">
+          <div class="tab-pane fade active show" id="v-pills-draw" role="tabpanel">
+            <ngx-theme-signature-pad (actionExecuted)="handleAction( $event )"></ngx-theme-signature-pad>
+          </div>
+          <div class="tab-pane fade" id="v-pills-upload" role="tabpanel">
+            <ngx-theme-file-upload (actionExecuted)="handleAction( $event )"></ngx-theme-file-upload>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

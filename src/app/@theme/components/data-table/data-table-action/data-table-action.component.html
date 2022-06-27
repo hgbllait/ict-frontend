@@ -1,0 +1,8 @@
+<div class="row table-action-buttons">
+    <button
+       *ngFor="let action of actions" class="btn btn-{{action.status}}" (click)='getAction(action.target)'
+       [disabled]="action.disabled" >
+        <i *ngIf="action.icon" class="{{ action.icon }}"></i>
+      <ng-container *ngIf="action.text">{{action.text}}</ng-container>
+    </button>
+</div>

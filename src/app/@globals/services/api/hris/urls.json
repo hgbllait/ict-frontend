@@ -1,0 +1,57 @@
+[
+  {
+    "prefix": "hris/api",
+    "slug": "api",
+    "children": [
+      {
+        "prefix": "custom",
+        "slug": "custom",
+        "children": [
+          {
+            "prefix": "active-users",
+            "slug": "active-users",
+            "method": "POST"
+          },
+          {
+            "prefix": "email",
+            "slug": "email",
+            "method": "POST"
+          }
+        ]
+      },
+      {
+        "prefix": "tracker",
+        "slug": "tracker",
+        "children": [
+          {
+            "prefix": "department",
+            "slug": "department",
+            "children": [
+              {
+                "prefix": "all",
+                "slug": "all",
+                "method": "POST"
+              }
+            ]
+          },
+          {
+            "prefix": "user",
+            "slug": "user",
+            "children": [
+              {
+                "prefix": "all",
+                "slug": "all",
+                "method": "POST"
+              },
+              {
+                "prefix": "id",
+                "slug": "id",
+                "method": "POST"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,24 @@
+.input-group-append .input-group-text, .input-group-prepend .input-group-text {
+  padding: 1.1rem 0.99rem!important;
+}
+
+.header {
+  padding: 10px 16px;
+  background: white;
+}
+
+.card-scrolalble {
+  display: contents;
+}
+
+.sticky {
+  border-right: 1px solid #dee2e6;
+  position: fixed;
+  top: 0;
+  height: 55px;
+  width: 549px;
+}
+
+::ng-deep .form-control[readonly] {
+  background-color: antiquewhite!important;
+}

@@ -1,0 +1,142 @@
+<div class="horizontal-menu">
+  <nav class="navbar top-navbar col-lg-12 col-12 p-0">
+    <div style="width:100%; background: maroon; color:white; padding:5px; height: 30px;">
+    </div>
+    <div class="container">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start me-lg-3">
+        <div>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item dropdown  d-none d-lg-flex">
+            <a class="nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="assets/images/logo/sdmd.png" height="35px">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+</div>
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Request Section</h4>
+
+          <app-muti-step-form
+            [formData]="step_form"
+            (nextAction)="setFormData($event)">
+            <ng-template let-step_content let-nextStepHandle="nextStepHandle">
+              <div appFormStep id='1'  class="child content clearfix">
+                <section class="body">
+                  <h3>Requester Email</h3>
+                  <ngx-theme-forms
+                    [data]='form_email.data'
+                    [form]="form_email.field"
+                    [readonly]="false"
+                    (actionExecuted)='handleAction( $event )'
+                    (dataChanges)='handleData( $event, 0 )'></ngx-theme-forms>
+                </section>
+              </div>
+              <div class="actions clearfix">
+                <ul role="menu" aria-label="Pagination">
+                  <li>
+                    <a (click)="verifyEmail(form_email.data, form_email.group)" role="menuitem">Next</a>
+                    <a #NextClick class="d-none" (click)="nextStepHandle(form_email.data, form_email.group)"></a>
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
+
+            <ng-template let-step_content let-nextStepHandle="nextStepHandle">
+              <div appFormStep id='1'  class="child content clearfix">
+                <section class="body">
+                  <h3>Type of Request</h3>
+                  <ngx-theme-forms
+                    [data]='form1.data'
+                    [form]="form1.field"
+                    [readonly]="false"
+                    (actionExecuted)='handleAction( $event )'
+                    (dataChanges)='handleData( $event, 1 )'></ngx-theme-forms>
+                </section>
+              </div>
+              <div class="actions clearfix">
+                <ul role="menu" aria-label="Pagination">
+                  <li>
+                    <a class="disabled" role="menuitem">Previous</a>
+                  </li>
+                  <li>
+                    <a (click)="nextStepHandle(form1.data, form1.group)" role="menuitem">Next</a>
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
+
+            <ng-template let-step_content let-nextStepHandle="nextStepHandle" let-backStepHandle="backStepHandle">
+              <div appFormStep id='2'  class="child content clearfix">
+                <section class="body">
+                  <h3>Request Data</h3>
+                  <ngx-theme-forms
+                    [data]='form2.data'
+                    [form]="form2.field"
+                    [readonly]="false"
+                    (actionExecuted)='handleAction( $event )'
+                    (dataChanges)='handleData( $event, 2 )'></ngx-theme-forms>
+
+                  <theme-nested-form *ngIf="hasMaterials"
+                                     [data]='form2.data_array'
+                                     [form]="form2.field_array"
+                                     [readonly]="false"
+                                     (dataChanges)='handleData( $event, 4 )'></theme-nested-form>
+
+                </section>
+              </div>
+              <div class="actions clearfix">
+                <ul role="menu" aria-label="Pagination">
+                  <li>
+                    <a (click)="backStepHandle()" role="menuitem">Previous</a>
+                  </li>
+                  <a #FinalCLick class="d-none" (click)="nextStepHandle(form2.data, form2.group)"></a>
+                  <li>
+                    <a class="{{form2.group.invalid ? 'disabled' : ''}}" (click)="onSubmit(form2.data)" role="menuitem">Submit</a>
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
+
+            <ng-template let-step_content let-nextStepHandle="nextStepHandle" let-backStepHandle="backStepHandle">
+              <div appFormStep class="content clearfix">
+                <section class="body">
+                  <h3>Finish</h3>
+                  <h5 class="pt-4">Your form has been submitted successfully.</h5>
+                  <ng-container *ngIf="requester.link; else FormError">
+                    <p>To track your request just visit this <a [routerLink]="['/form/', requester.link]" href="" target="_blank">link</a> then input this password <b>{{requester.password}}</b>.</p>
+                    <p class="mb-0 mt-3">Please dont forget to save your form link and password:</p>
+                    <p class="mb-0">Link: <b>{{url}}/{{requester.link}}</b></p>
+                    <p>Password: <b>{{requester.password}}</b></p>
+                  </ng-container>
+                  <ng-template #FormError>
+                    <p>If you want to track your request just contact us at sdmd@usep.edu.ph. Thank You.</p>
+                  </ng-template>
+                </section>
+              </div>
+              <div class="actions clearfix">
+                <ul role="menu" aria-label="Pagination">
+                  <li>
+                    <a (click)="onDone()" role="menuitem">Done</a>
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
+          </app-muti-step-form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

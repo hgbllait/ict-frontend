@@ -1,13 +1,16 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "f6be5582-d867-4a25-9a21-b43af756dbc5"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "uagc": {
+    "requestform": {
       "projectType": "application",
       "schematics": {
-        "@schematics/angular:application": {
-          "strict": true
+        "@schematics/angular:component": {
+          "style": "scss"
         }
       },
       "root": "",
@@ -17,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/uagc",
+            "outputPath": "dist/requestform",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -27,9 +30,24 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/style.scss",
+              "node_modules/dropify/dist/css/dropify.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/chart.js/dist/chart.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "src/app/@theme/vendors/js/sidebar-minimize.min.js",
+              "src/app/@theme/vendors/jquery-steps/jquery.steps.min.js",
+              "src/app/@theme/vendors/jquery-validation/jquery.validate.min.js",
+              "node_modules/progressbar.js/dist/progressbar.min.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js",
+              "src/app/@theme/vendors/datatable/js/responsive.min.js",
+              "node_modules/dropify/dist/js/dropify.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -68,10 +86,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "uagc:build:production"
+              "browserTarget": "requestform:build:production"
             },
             "development": {
-              "browserTarget": "uagc:build:development"
+              "browserTarget": "requestform:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "uagc:build"
+            "browserTarget": "requestform:build"
           }
         },
         "test": {
@@ -94,7 +112,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/style.scss"
             ],
             "scripts": []
           }
@@ -102,5 +120,5 @@
       }
     }
   },
-  "defaultProject": "uagc"
+  "defaultProject": "requestform"
 }

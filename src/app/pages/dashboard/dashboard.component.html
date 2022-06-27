@@ -1,0 +1,240 @@
+<div *ngIf="onState" class="row">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-lg-8 d-flex flex-column">
+        <div class="row flex-grow">
+          <div class="col-12 grid-margin stretch-card">
+            <div class="card card-rounded">
+              <div class="card-body">
+                <div class="d-sm-flex justify-content-between align-items-start">
+                  <div>
+                    <h4 class="card-title card-title-dash">Form Requests</h4>
+                  </div>
+                  <div>
+                    <a href="#" [routerLink]="['/pages/form-request/create']" class="btn btn-primary btn-sm text-white mb-0 me-0" type="button">Create form request</a>
+                  </div>
+                </div>
+                <div class="table-responsive  mt-1">
+                  <table class="table select-table">
+                    <thead>
+                    <tr>
+                      <th>Form</th>
+                      <th>Added By</th>
+                      <th>Progress</th>
+                      <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody *ngIf="result.form_request?.length != 0">
+                    <tr *ngFor="let result of result.form_request">
+                      <td>
+                        <div class="d-flex ">
+                          <div>
+                            <h6><a href="#" [routerLink]="['/pages/form-request/view', result.request.forms.id]" class="text-black">{{result.request.forms.name}}</a></h6>
+                            <p>{{result.request.forms.type.form_no}}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <h6>{{result.added_by.full_name}}</h6>
+                        <p>{{result.added_by.email}}</p>
+                      </td>
+                      <td>
+                        <div>
+                          <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+                            <p class="text-success">{{result.request.status.percentage}}%</p>
+                            <p>{{ result.request.status.approved + result.request.status.rejected }}/{{ result.request.status.all }}</p>
+                          </div>
+                          <div class="progress progress-md">
+                            <div class="progress-bar bg-success" role="progressbar" style="width:{{result.request.status.percentage}}%"></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div *ngIf="result.request.approval_status === 'false'" class="badge badge-opacity-warning">In progress</div>
+                        <div *ngIf="result.request.approval_status !== 'false' && result.request.approval_status !== 'processing'" class="badge badge-opacity-success">Completed</div>
+                        <div *ngIf="result.request.approval_status === 'processing'" class="badge badge-opacity-danger">To be Process</div>
+                      </td>
+                    </tr>
+                    </tbody>
+                    <tbody *ngIf="result.form_request?.length == 0">
+                    <tr>
+                      <td colspan="3" class="no-data-available">No data available</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div *ngIf="result.form_request?.length != 0" class="list align-items-center pt-3">
+                  <div class="wrapper w-100">
+                    <p class="mb-0">
+                      <a href="#" [routerLink]="['/pages/form-request']" class="fw-bold text-primary">Show all <i class="mdi mdi-arrow-right ms-2"></i></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row flex-grow">
+          <div class="col-md-4 col-lg-4 grid-margin stretch-card">
+            <div class="card card-rounded">
+              <div class="card-body card-rounded">
+                <h4 class="card-title  card-title-dash">All Form Request</h4>
+                <ng-container *ngIf="result.all_form_request?.length == 0">
+                  Nothing to show.
+                </ng-container>
+                <ng-container *ngIf="result.all_form_request?.length != 0">
+                  <div *ngFor="let result of result.all_form_request" class="list align-items-center border-bottom py-2">
+                    <div class="wrapper w-100">
+                      <p class="mb-2 font-weight-medium">
+                        {{result.name}}
+                      </p>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="d-flex align-items-center">
+                          <p class="mb-0 text-small">{{result.type.form_no}}</p>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                          <i class="mdi mdi-calendar text-muted me-1"></i>
+                          <p class="mb-0 text-small text-muted">{{result.created_at | date}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list align-items-center pt-3">
+                    <div class="wrapper w-100">
+                      <p class="mb-0">
+                        <a href="#" [routerLink]="['/pages/form-request']" class="fw-bold text-primary">Show all <i class="mdi mdi-arrow-right ms-2"></i></a>
+                      </p>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8 col-lg-8 grid-margin stretch-card">
+            <div class="card card-rounded">
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <h4 class="card-title card-title-dash">Activities</h4>
+                  <p class="mb-0">{{result.stats.completed}} completed, {{result.stats.pending}} pending</p>
+                </div>
+                <ul class="bullet-line-list">
+                  <ng-container *ngIf="result.activities?.length == 0">
+                    Nothing to show.
+                  </ng-container>
+                  <ng-container *ngIf="result.activities?.length != 0">
+                    <li *ngFor="let result of result.activities">
+                      <div class="d-flex justify-content-between">
+                        <div>{{result.event_description}}</div>
+                        <p>{{result.created_at | dateFromNow}}</p>
+                      </div>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 d-flex flex-column">
+        <div class="row flex-grow h-20">
+          <div class="col-md-12 col-lg-12 grid-margin stretch-card">
+            <div class="card bg-primary card-rounded">
+              <div class="card-body pb-0">
+                <h4 class="card-title card-title-dash text-white mb-4">Total Request Assigned</h4>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <p class="text-white mb-1">My Value</p>
+                    <h2 class="text-white">{{result.stats.my_request}}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row flex-grow h-100">
+          <div class="col-12 grid-margin stretch-card">
+            <div class="card card-rounded">
+              <div class="card-body">
+                <div class="row d-flex flex-column h-100">
+                  <div class="col-lg-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h4 class="card-title card-title-dash">Pending Request list</h4>
+                      <div class="add-items d-flex mb-0">
+                      </div>
+                    </div>
+                    <div class="list-wrapper">
+                      <ul class="todo-list todo-list-rounded">
+                        <ng-container *ngIf="result.pending_request?.length == 0">
+                          Nothing to show.
+                        </ng-container>
+                        <ng-container *ngIf="result.pending_request?.length != 0">
+                          <li *ngFor="let result of result.pending_request" class="d-block">
+                            <div class="form-check w-100">
+                              <label class="form-check-label">
+                                <a href="#" [routerLink]="['/pages/form-request/view', result.request.forms.id]" class="text-black">{{result.request.forms.name}} - {{result.request.forms.type.form_no}}</a>
+                              </label>
+                              <div class="d-flex justify-content-between mt-2">
+                                <div class="ps-2 text-small me-5">{{ result.created_at | date}}</div>
+                              </div>
+                            </div>
+                          </li>
+                          <li class="border-bottom-0">
+                            <div>
+                              <p class="mb-0">
+                                <a href="#" [routerLink]="['/pages/form-request']" class="fw-bold text-primary">Show all
+                                  <i class="mdi mdi-arrow-right ms-2"></i>
+                                </a>
+                              </p>
+                            </div>
+                          </li>
+                        </ng-container>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row flex-grow h-100">
+          <div class="col-12 grid-margin stretch-card">
+            <div class="card card-rounded">
+              <div class="card-body">
+                <div class="row d-flex flex-column h-100">
+                  <div class="col-lg-12">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <div>
+                        <h4 class="card-title card-title-dash">Login Logs</h4>
+                      </div>
+                    </div>
+                    <div class="mt-3">
+                      <ng-container *ngIf="result.login_logs?.length == 0">
+                        Nothing to show.
+                      </ng-container>
+                      <ng-container *ngIf="result.login_logs?.length != 0">
+                        <div *ngFor="let result of result.login_logs" class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                          <div class="d-flex">
+                            <img class="img-sm rounded-10" src="assets/images/faces/default_avatar.jpg" alt="profile">
+                            <div class="wrapper ms-3">
+                              <p class="ms-1 mb-1 fw-bold">{{result.user.employee.full_name}}</p>
+                              <small class="text-muted mb-0">{{ result.type }}</small>
+                            </div>
+                          </div>
+                          <div class="text-muted text-small">
+                            {{ result.created_at | dateFromNow }}
+                          </div>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

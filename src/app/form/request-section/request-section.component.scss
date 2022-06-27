@@ -1,0 +1,44 @@
+.horizontal-menu .top-navbar {
+  background: transparent !important;
+  border-bottom: .5px solid #dee2e6!important;
+}
+
+.btn-secondary:hover, .wizard > .actions .disabled a:hover, .btn-secondary:focus, .wizard > .actions .disabled a:focus {
+  background: gray !important;
+  color: #ffffff;
+}
+
+.form-control, .typeahead, .tt-query, .tt-hint, .select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-selection--single, .dataTables_wrapper select, .asColorPicker-input {
+  border: 1px solid #dee2e6;
+  font-weight: 400;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  height: 2.75rem;
+}
+
+.form-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -5px;
+  margin-left: -5px;
+}
+
+.invalid-feedback {
+  display: block!important;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+textarea.form-control {
+  height: auto;
+}
+
+.form-row>.col, .form-row>[class*=col-] {
+  padding-right: 5px;
+  padding-left: 5px;
+}

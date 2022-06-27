@@ -1,0 +1,73 @@
+<div *ngIf="page_alert.shown" class="alert alert-{{page_alert.type}}" role="alert">
+  {{page_alert.messages}}
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body home-tab">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="card-title">List of Equipments</h4>
+          <div class="btn-wrapper text-right justify-content-end" >
+            <button (click)="addEquipment(equipment)" class="btn btn-primary text-white me-0">
+              <i class="icon-form_type-follow"></i> Add Equipment
+            </button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table hover">
+            <thead>
+            <tr>
+              <th>Alias</th>
+              <th>Equipment</th>
+              <th>Property/Serial No.</th>
+              <th>Brand/Model</th>
+              <th>Location</th>
+              <th>Created At</th>
+              <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="equipments?.length != 0">
+            <tr *ngFor="let result of equipments">
+              <td>{{ result.alias | titlecase }}</td>
+              <td>{{ result.equipment }}</td>
+              <td>{{ result.serial_no }}</td>
+              <td>{{ result.brand }}</td>
+              <td>{{ result.location }}</td>
+              <td>{{ result.created_at | dateFromNow: 'MMM dd, yyyy hh:mm a' }}</td>
+              <td>
+                <button class="btn btn-lg btn-outline-primary" (click)="handleAction({action: 'table_update', value:result.id})">Edit</button>
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="equipments?.length == 0">
+            <tr>
+              <td colspan="3" class="no-data-available">No data available</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #equipment let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{modalTitle}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="form_alert.shown" class="alert alert-danger" role="alert">
+      {{form_alert.messages}}
+    </div>
+    <form>
+      <div class="mb-3">
+        <ngx-theme-forms
+          [data]='data'
+          [form]="formData"
+          [readonly]="false"
+          (actionExecuted)='handleAction( $event )'></ngx-theme-forms>
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="card-title">List of Links</h4>
+        </div>
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table hover">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Link</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="links?.length != 0">
+            <tr *ngFor="let link of links">
+              <td>{{ link.approver.approver.name }}</td>
+              <td>{{ link.approver.approver.email }}</td>
+              <td>{{url}}/form/{{ link.meta_value }}</td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="links?.length == 0">
+            <tr>
+              <td colspan="3" class="no-data-available">No data available</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

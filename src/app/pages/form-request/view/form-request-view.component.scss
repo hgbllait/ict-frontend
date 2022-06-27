@@ -1,0 +1,68 @@
+.header {
+  padding: 10px 16px;
+  background: white;
+}
+
+.card-scrolalble {
+  display: contents;
+}
+
+.sticky {
+  border-right: 1px solid #dee2e6;
+  position: fixed;
+  top: 0;
+  height: 55px;
+  width: 549px;
+}
+
+::ng-deep .form-check .form-check-label {
+  margin-left: 1.5rem !important;
+  line-height: 1.9 !important;
+}
+
+::ng-deep .form-control[readonly] {
+  background-color: antiquewhite!important;
+}
+
+#printer-trigger, #download-trigger {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+
+#printer-trigger {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  height: 45px;
+  width: 45px;
+  background: #800000;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+}
+
+#download-trigger {
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  height: 45px;
+  width: 45px;
+  background: #800000;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+}
+
+.add.btn.btn-icons {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.btn.btn-icons .mdi {
+  font-size: .9em !important;
+}

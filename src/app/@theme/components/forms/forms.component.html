@@ -1,0 +1,9 @@
+<form *ngIf="enable" [formGroup]="formGroup">
+  <div viewMode="advance" [rxwebDynamicForm]="rxFormBuild" [uiBindings]="form.bindings"></div>
+  <ngx-ui-forms-action
+    *ngIf="form.button"
+    [actions]="form.button"
+    (onButtonClick)="actionMade( $event )"
+  >
+  </ngx-ui-forms-action>
+</form>
