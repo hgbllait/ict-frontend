@@ -6,7 +6,7 @@
 export const environment = {
   production: true,
   APP_NAME: 'ICT Resource Management System',
-  API_BASE_URL: 'http://localhost:8000',
+  API_BASE_URL: 'http://172.16.210.79:8000',
   HRIS_BASE_URL: 'https://hris.usep.edu.ph',
-  FRONTEND_BASE_URL: 'http://localhost:4200',
+  FRONTEND_BASE_URL: 'http://172.16.210.79:82',
 };

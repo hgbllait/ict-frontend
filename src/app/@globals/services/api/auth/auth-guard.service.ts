@@ -12,6 +12,9 @@ export class AuthGuardService implements CanActivate {
     }
 
     canActivate() {
+      this.authService.isAuthenticatedOrRefresh().subscribe(response => {
+        console.log(response);
+      });
         return this.authService.isAuthenticated()
             .pipe(
                 tap(authenticated => {

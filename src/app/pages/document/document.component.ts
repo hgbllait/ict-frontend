@@ -371,7 +371,15 @@ export class DocumentComponent extends BasePage implements OnInit {
                 obj[key] = this.templateData[obj[key]];
               }
             }
-            else obj[key] = '';
+            else {
+              if(new_value == 'meta_requested_date_signed'
+              || new_value == 'meta_certified_date_signed'
+              || new_value == 'meta_approved_date_signed'){
+                obj[key] = this.addSpace('', 20);
+                return;
+              }
+              obj[key] = '';
+            }
           }
 
         }

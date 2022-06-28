@@ -11,9 +11,6 @@ import Swal, {SweetAlertIcon} from 'sweetalert2';
 import Dialog from '../../helpers/ui/dialogs/Dialog';
 import Toast from '../../helpers/ui/dialogs/Toast';
 import {SpinnerService} from "../../helpers/ui/loader/loader.helper";
-import {AuthenticationService, UserService} from "./auth";
-import {NbTokenService, NbTokenStorage} from "@nebular/auth";
-import {RequestFormService} from "./request-form";
 
 @Injectable({
     providedIn: 'root',
@@ -143,7 +140,7 @@ export class ApiService extends BaseService {
                     },
                     (exception) => {
                         Swal.close();
-                      this.spinner.hide();
+                        this.spinner.hide();
 
                         let message = '';
                         let response: Response;
@@ -200,6 +197,7 @@ export class ApiService extends BaseService {
                                     break;
                             }
                         }
+
 
                         console.log('[API: execute()] EXECUTE EXCEPTION: ', exception);
                         observer.error(exception);

@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from "./app-routing.module";
-import {AuthGuardService} from './@globals/services/api/auth';
+import {AuthGuardService} from './@globals/services/api';
 import {NbAuthInterceptor} from './@globals/interceptors/nb.interceptor';
 import {NbAuthModule} from "@nebular/auth";
 import {ToastrModule} from "ngx-toastr";
