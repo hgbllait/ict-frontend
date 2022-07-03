@@ -162,4 +162,9 @@ export class DashboardComponent implements OnInit {
           console.log(error);
         });
   }
+
+  changeRoute(url) {
+    window.location.href = window.location.protocol + '//' + window.location.host + url;
+
+  }
 }

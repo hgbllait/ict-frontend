@@ -191,7 +191,6 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
   }
 
   ngOnInit() {
-    console.log('On Init');
     this.clearAlert();
     this.called = 0;
     this.hasMaterials = false;

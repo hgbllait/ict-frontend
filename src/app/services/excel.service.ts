@@ -141,6 +141,7 @@ export class ExcelService {
     const date = excelData.date;
     const director = excelData.director;
     const user = excelData.user;
+    const position = excelData.position;
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -287,7 +288,7 @@ export class ExcelService {
       underline: true
     };
     let user_name_position = worksheet.getCell('A'+(rowsCount+1));
-    user_name_position.value = "";
+    user_name_position.value = position;
     user_name_position.font = {
       name: 'Calibri',
       size: 11,

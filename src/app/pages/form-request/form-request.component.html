@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="card-title">List of Form Requests</h4>
           <div class="btn-wrapper text-right justify-content-end" >
-            <a [routerLink]="['/pages/form-request/create']" target="blank" class="btn btn-primary text-white me-2">
+            <a (click)="changeRoute('/pages/form-request/create')" class="btn btn-primary text-white me-2">
               <i class="icon-approver-follow"></i> Create Form Request
             </a>
             <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown">Reports</button>

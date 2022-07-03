@@ -838,4 +838,9 @@ export class FormRequestViewComponent extends BasePage implements OnInit {
     }
   }
 
+  changeRoute(url) {
+    window.location.href = window.location.protocol + '//' + window.location.host + url;
+
+  }
+
 }

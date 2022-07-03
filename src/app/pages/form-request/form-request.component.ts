@@ -13,6 +13,7 @@ import {HideFormTypeModel} from "../../@theme/components/forms/models/hide-form-
 import Responsive from 'datatables.net-responsive';
 import Swal from "sweetalert2";
 import {ExcelService} from "../../services/excel.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'pg-form-request',
@@ -184,6 +185,7 @@ export class FormRequestComponent extends BasePage implements OnInit, OnDestroy 
     private excel_service: ExcelService,
     private titleService: Title,
     private fb: FormBuilder,
+    private router: Router,
     private modalService: NgbModal
   ) {
     super(authService);
@@ -534,6 +536,11 @@ export class FormRequestComponent extends BasePage implements OnInit, OnDestroy 
     });
   }
 
+  changeRoute(url) {
+    window.location.href = window.location.protocol + '//' + window.location.host + url;
+
+  }
+
   accomplishmentReport(form_data) {
     return this.data_service.execute(
       {
@@ -567,7 +574,8 @@ export class FormRequestComponent extends BasePage implements OnInit, OnDestroy 
           headers: Object.keys(result_data[Object.keys(result_data)[0]]),
           date:  result.data.date,
           director: result.data.director,
-          user: result.data.user
+          user: result.data.user,
+          position: result.data.user_position
         }
         this.excel_service.accomplishment(reportData, 'Accomplishment Report');
       }

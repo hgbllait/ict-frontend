@@ -286,35 +286,19 @@ export let field = {
       ],
       "endpoint": "",
       "bindings": [
-        "file_link",
-        ["meta_date_requested", "meta_priority_level"],
-        ["meta_college", "meta_job_order_no"],
-        ["meta_date_created", "meta_schedule_of_visit"],
-        "meta_request_related",
-        "meta_hardware_type",
-        "meta_hardware_type_others",
+        ["meta_date_requested", "meta_date_needed"],
+        ["meta_job_order_no", "meta_college"],
+        "meta_hardware",
         "meta_software",
+        "meta_others",
         ["meta_property_no", "meta_brand_model"],
         "meta_findings",
         "meta_action_taken",
-        ["meta_result_repaired", "meta_result_repair_others"],
+        ["meta_result", "meta_result_others"],
+        "meta_result_remarks",
         [ "meta_repair_started_date", "meta_repair_started_time" , "meta_repair_ended_date", "meta_repair_ended_time"]
       ],
       "fields": [
-        {
-          "name": "file_link",
-          "type": "text",
-          "ui": {
-            "label":"File Link",
-            "placeholder":"File Link",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-12","col-sm-12"]
-              }
-            }
-          },
-          "validators": {}
-        },
         {
           "name": "meta_date_requested",
           "type": "date",
@@ -333,12 +317,28 @@ export let field = {
           }
         },
         {
-          "name": "meta_priority_level",
-          "type": "select",
-          "source": [{ "value": "High", "text": "High" },{ "value": "Low", "text": "Low" }],
+          "name": "meta_date_needed",
+          "type": "date",
+          "value": moment().format('YYYY-MM-DD'),
           "ui": {
-            "label":"Priority Leave:",
-            "placeholder":"Priority Level",
+            "label":"Date Needed:",
+            "placeholder":"Date Needed",
+            "viewMode": {
+              "advance": {
+                "div": ["col-md-6","col-sm-6"]
+              }
+            }
+          },
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "meta_job_order_no",
+          "type": "text",
+          "ui": {
+            "label":"Job Order No.:",
+            "placeholder":"Job Order No.",
             "viewMode": {
               "advance": {
                 "div": ["col-md-6","col-sm-6"]
@@ -366,90 +366,21 @@ export let field = {
           }
         },
         {
-          "name": "meta_job_order_no",
-          "type": "text",
-          "ui": {
-            "label":"Job Order No:",
-            "placeholder":"Job Order No",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-6","col-sm-6"]
-              }
-            }
-          },
-          "validators": {
-            "required": true
-          }
-        },
-        {
-          "name": "meta_date_created",
-          "type": "date",
-          "value": moment().format('YYYY-MM-DD'),
-          "ui": {
-            "label":"Date Created:",
-            "placeholder":"Date Created",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-6","col-sm-6"]
-              }
-            }
-          },
-          "validators": {
-            "required": true
-          }
-        },
-        {
-          "name": "meta_schedule_of_visit",
-          "type": "date",
-          "value": moment().format('YYYY-MM-DD'),
-          "ui": {
-            "label":"Schedule of Visit:",
-            "placeholder":"Schedule of Visit",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-6","col-sm-6"]
-              }
-            }
-          },
-          "validators": {
-            "required": true
-          }
-        },
-        {
-          "name": "meta_request_related",
+          "name": "meta_hardware",
           "type": "select",
-          "source": [{ "value": "Hardware", "text": "Hardware" },{ "value": "Software", "text": "Software" }],
-          "ui": {
-            "label":"Request Related:",
-            "placeholder":"Request Related",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-12","col-sm-12"]
-              }
-            }
-          },
-          "validators": {
-            "required": true
-          }
-        },
-        {
-          "name": "meta_hardware_type",
-          "type": "select",
-          "modelName": "hideHardware",
           "source": [
             { "value": "System Unit", "text": "System Unit" },
+            { "value": "Switch/Routers/AP", "text": "Switch/Routers/AP" },
             { "value": "Monitor", "text": "Monitor" },
-            { "value": "Printer/Scanner", "text": "Printer/Scanner" },
-            { "value": "Laptop", "text": "Laptop" },
-            { "value": "Projector", "text": "Projector" },
-            { "value": "Switch/Routers", "text": "Switch/Routers" },
             { "value": "CCTV", "text": "CCTV" },
-            { "value": "SIP PHONE", "text": "SIP PHONE" },
-            { "value": "Network/Cabling", "text": "Network/Cabling" },
-            { "value": "Others", "text": "Others" }
+            { "value": "Printer/Scanner", "text": "Printer/Scanner" },
+            { "value": "Projector", "text": "Projector" },
+            { "value": "UPS/AVR", "text": "UPS/AVR" },
+            { "value": "Turnstile", "text": "Turnstile" },
+            { "value": "Bio-metric", "text": "Bio-metric" },
+            { "value": "SIP Phone", "text": "SIP Phone" }
           ],
           "ui": {
-            "hide": true,
             "label":"Hardware Type:",
             "placeholder":"Choose Hardware Type",
             "viewMode": {
@@ -459,52 +390,38 @@ export let field = {
             }
           },
           "validators": {
-            "required": {
-              "conditionalExpression":"x => x.meta_request_related == \"Hardware\""
-            }
-          }
-        },
-        {
-          "name": "meta_hardware_type_others",
-          "type": "textarea",
-          "modelName": "hideHardware",
-          "ui": {
-            "hide": true,
-            "label":"Others: (Specify Hardware Type)",
-            "placeholder":"Others",
-            "description": "Leave blank if not hardware type others",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-12","col-sm-12"]
-              }
-            }
-          },
-          "validators": {
-            "required": {
-              "conditionalExpression":"x => x.meta_hardware_type == \"Others\""
-            }
+            "required": true
           }
         },
         {
           "name": "meta_software",
           "type": "textarea",
-          "modelName": "hideSoftware",
           "ui": {
-            "hide": true,
-            "label":"Software Type:",
-            "placeholder":"Software Type",
-            "description":"Please Specify",
+            "label":"Software:",
+            "placeholder":"Software",
+            "description":"Leave blank if not applicable.",
             "viewMode": {
               "advance": {
                 "div": ["col-md-12","col-sm-12"]
               }
             }
           },
-          "validators": {
-            "required": {
-              "conditionalExpression":"x => x.meta_request_related == \"Software\""
+          "validators": {}
+        },
+        {
+          "name": "meta_others",
+          "type": "textarea",
+          "ui": {
+            "label":"Others:",
+            "placeholder":"Others",
+            "description":"Leave blank if not applicable.",
+            "viewMode": {
+              "advance": {
+                "div": ["col-md-12","col-sm-12"]
+              }
             }
-          }
+          },
+          "validators": {}
         },
         {
           "name": "meta_property_no",
@@ -582,11 +499,11 @@ export let field = {
           "validators": {}
         },
         {
-          "name": "meta_result_repaired",
+          "name": "meta_result",
           "type": "select",
           "source": [
             { "value": "Repaired", "text": "Repaired" },
-            { "value": "Pending Repair upon Purchase of required material", "text": "Pending Repair upon Purchase of required material" },
+            { "value": "Pending", "text": "Pending" },
             { "value": "Others", "text": "Others" },
           ],
           "ui": {
@@ -601,12 +518,12 @@ export let field = {
           "validators": {}
         },
         {
-          "name": "meta_result_repair_others",
+          "name": "meta_result_others",
           "type": "textarea",
           "ui": {
-            "label":"Other Remarks: (Specify Repair Result)",
-            "placeholder":"Other Remarks",
-            "description": "Leave blank if not repair result others",
+            "label":"Other Result: (Specify Other Result)",
+            "placeholder":"Other Result",
+            "description": "Leave blank if not result others",
             "viewMode": {
               "advance": {
                 "div": ["col-md-12","col-sm-12"]
@@ -615,9 +532,23 @@ export let field = {
           },
           "validators": {
             "required": {
-              "conditionalExpression":"x => x.meta_result_repaired == \"Others\""
+              "conditionalExpression":"x => x.meta_result == \"Others\""
             }
           }
+        },
+        {
+          "name": "meta_result_remarks",
+          "type": "textarea",
+          "ui": {
+            "label":"Result Remarks:",
+            "placeholder":"Result Remarks",
+            "viewMode": {
+              "advance": {
+                "div": ["col-md-12","col-sm-12"]
+              }
+            }
+          },
+          "validators": {}
         },
         {
           "name": "meta_repair_started_date",
@@ -2523,18 +2454,18 @@ export let fill_out = {
       ],
       "endpoint": "",
       "bindings": [
-        "meta_result_repaired",
-        "meta_result_repair_others",
+        ["meta_result", "meta_result_others"],
+        "meta_result_remarks",
         [ "meta_repair_started_date", "meta_repair_started_time" ],
         [ "meta_repair_ended_date", "meta_repair_ended_time"]
       ],
       "fields": [
         {
-          "name": "meta_result_repaired",
+          "name": "meta_result",
           "type": "select",
           "source": [
             { "value": "Repaired", "text": "Repaired" },
-            { "value": "Pending Repair upon Purchase of required material", "text": "Pending Repair upon Purchase of required material" },
+            { "value": "Pending", "text": "Pending" },
             { "value": "Others", "text": "Others" },
           ],
           "ui": {
@@ -2551,12 +2482,12 @@ export let fill_out = {
           }
         },
         {
-          "name": "meta_result_repair_others",
+          "name": "meta_result_others",
           "type": "textarea",
           "ui": {
-            "label":"Other Remarks: (Specify Repair Result)",
-            "placeholder":"Other Remarks",
-            "description": "Leave blank if not repair result others",
+            "label":"Other Result: (Specify Other Result)",
+            "placeholder":"Other Result",
+            "description": "Leave blank if not result others",
             "viewMode": {
               "advance": {
                 "div": ["col-md-12","col-sm-12"]
@@ -2565,8 +2496,24 @@ export let fill_out = {
           },
           "validators": {
             "required": {
-              "conditionalExpression":"x => x.meta_result_repaired == \"Others\""
+              "conditionalExpression":"x => x.meta_result == \"Others\""
             }
+          }
+        },
+        {
+          "name": "meta_result_remarks",
+          "type": "textarea",
+          "ui": {
+            "label":"Result Remarks:",
+            "placeholder":"Result Remarks",
+            "viewMode": {
+              "advance": {
+                "div": ["col-md-12","col-sm-12"]
+              }
+            }
+          },
+          "validators": {
+            "required": true
           }
         },
         {
@@ -2881,14 +2828,14 @@ export let field_view = {
       ],
       "endpoint": "",
       "bindings": [
-        ["meta_date_requested", "meta_priority_level", "meta_college"],
-        [ "meta_job_order_no", "meta_date_created", "meta_schedule_of_visit"],
-        "meta_request_related",
-        ["meta_hardware_type", "meta_hardware_type_others"],
-        "meta_software",
-        ["meta_property_no", "meta_brand_model", "meta_findings"],
-        "meta_action_taken",
-        ["meta_result_repaired", "meta_result_repair_others"],
+        ["meta_date_requested", "meta_date_needed"],
+        ["meta_job_order_no", "meta_college"],
+        ["meta_hardware", "meta_software"],
+        "meta_others",
+        ["meta_property_no", "meta_brand_model"],
+        ["meta_findings", "meta_action_taken"],
+        ["meta_result", "meta_result_others"],
+        "meta_result_remarks",
         [ "meta_repair_started_date", "meta_repair_started_time" , "meta_repair_ended_date", "meta_repair_ended_time"]
       ],
       "fields": [
@@ -2900,7 +2847,7 @@ export let field_view = {
             "placeholder":"N/A",
             "viewMode": {
               "advance": {
-                "div": ["col-md-4","col-sm-4"]
+                "div": ["col-md-6","col-sm-6"]
               }
             }
           },
@@ -2909,30 +2856,14 @@ export let field_view = {
           }
         },
         {
-          "name": "meta_priority_level",
+          "name": "meta_date_needed",
           "type": "text",
           "ui": {
-            "label":"Priority Leave:",
-            "placeholder":"Priority Level",
+            "label":"Date Created:",
+            "placeholder":"N/A",
             "viewMode": {
               "advance": {
-                "div": ["col-md-4","col-sm-4"]
-              }
-            }
-          },
-          "validators": {
-            "required": true
-          }
-        },
-        {
-          "name": "meta_college",
-          "type": "text",
-          "ui": {
-            "label":"College/Office:",
-            "placeholder":"College/Office",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-4","col-sm-4"]
+                "div": ["col-md-6","col-sm-6"]
               }
             }
           },
@@ -2945,26 +2876,10 @@ export let field_view = {
           "type": "text",
           "ui": {
             "label":"Job Order No:",
-            "placeholder":"Job Order No",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-4","col-sm-4"]
-              }
-            }
-          },
-          "validators": {
-            "required": true
-          }
-        },
-        {
-          "name": "meta_date_created",
-          "type": "text",
-          "ui": {
-            "label":"Date Created:",
             "placeholder":"N/A",
             "viewMode": {
               "advance": {
-                "div": ["col-md-4","col-sm-4"]
+                "div": ["col-md-6","col-sm-6"]
               }
             }
           },
@@ -2973,14 +2888,14 @@ export let field_view = {
           }
         },
         {
-          "name": "meta_schedule_of_visit",
+          "name": "meta_college",
           "type": "text",
           "ui": {
-            "label":"Schedule of Visit:",
+            "label":"College/Office:",
             "placeholder":"N/A",
             "viewMode": {
               "advance": {
-                "div": ["col-md-4","col-sm-4"]
+                "div": ["col-md-6","col-sm-6"]
               }
             }
           },
@@ -2989,29 +2904,11 @@ export let field_view = {
           }
         },
         {
-          "name": "meta_request_related",
+          "name": "meta_hardware",
           "type": "text",
           "ui": {
-            "label":"Request Related:",
-            "placeholder":"Request Related",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-12","col-sm-12"]
-              }
-            }
-          },
-          "validators": {
-            "required": true
-          }
-        },
-        {
-          "name": "meta_hardware_type",
-          "type": "text",
-          "modelName": "hideHardware",
-          "ui": {
-            "hide": true,
             "label":"Hardware Type:",
-            "placeholder":"Choose Hardware Type",
+            "placeholder":"N/A",
             "viewMode": {
               "advance": {
                 "div": ["col-md-6","col-sm-6"]
@@ -3019,62 +2916,46 @@ export let field_view = {
             }
           },
           "validators": {
-            "required": {
-              "conditionalExpression":"x => x.meta_request_related == \"hardware\""
-            }
-          }
-        },
-        {
-          "name": "meta_hardware_type_others",
-          "type": "textarea",
-          "modelName": "hideHardware",
-          "ui": {
-            "hide": true,
-            "label":"Others: (Specify Hardware Type)",
-            "placeholder":"Others",
-            "description": "Leave blank if not hardware type others",
-            "viewMode": {
-              "advance": {
-                "div": ["col-md-6","col-sm-6"]
-              }
-            }
-          },
-          "validators": {
-            "required": {
-              "conditionalExpression":"x => x.meta_hardware_type == \"others\""
-            }
+            "required": true
           }
         },
         {
           "name": "meta_software",
           "type": "textarea",
-          "modelName": "hideSoftware",
           "ui": {
-            "hide": true,
-            "label":"Software Type:",
-            "placeholder":"Software Type",
-            "description":"Please Specify",
+            "label":"Software:",
+            "placeholder":"N/A",
+            "viewMode": {
+              "advance": {
+                "div": ["col-md-6","col-sm-6"]
+              }
+            }
+          },
+          "validators": {}
+        },
+        {
+          "name": "meta_others",
+          "type": "textarea",
+          "ui": {
+            "label":"Others:",
+            "placeholder":"N/A",
             "viewMode": {
               "advance": {
                 "div": ["col-md-12","col-sm-12"]
               }
             }
           },
-          "validators": {
-            "required": {
-              "conditionalExpression":"x => x.meta_request_related == \"software\""
-            }
-          }
+          "validators": {}
         },
         {
           "name": "meta_property_no",
           "type": "text",
           "ui": {
             "label":"Property No:",
-            "placeholder":"Property No",
+            "placeholder":"N/A",
             "viewMode": {
               "advance": {
-                "div": ["col-md-4","col-sm-4"]
+                "div": ["col-md-6","col-sm-6"]
               }
             }
           },
@@ -3087,10 +2968,10 @@ export let field_view = {
           "type": "text",
           "ui": {
             "label":"Brand/Model:",
-            "placeholder":"Brand/Model",
+            "placeholder":"N/A",
             "viewMode": {
               "advance": {
-                "div": ["col-md-4","col-sm-4"]
+                "div": ["col-md-6","col-sm-6"]
               }
             }
           },
@@ -3109,11 +2990,10 @@ export let field_view = {
           },
           "ui": {
             "label":"Remarks/Findings:",
-            "placeholder":"Remarks/Findings",
-            "description":"Please Specify",
+            "placeholder":"N/A",
             "viewMode": {
               "advance": {
-                "div": ["col-md-4","col-sm-4"]
+                "div": ["col-md-6","col-sm-6"]
               }
             }
           },
@@ -3132,17 +3012,17 @@ export let field_view = {
           },
           "ui": {
             "label":"Action Taken:",
-            "placeholder":"Action Taken",
+            "placeholder":"N/A",
             "viewMode": {
               "advance": {
-                "div": ["col-md-12","col-sm-12"]
+                "div": ["col-md-6","col-sm-6"]
               }
             }
           },
           "validators": {}
         },
         {
-          "name": "meta_result_repaired",
+          "name": "meta_result",
           "type": "text",
           "ui": {
             "label":"Repair Results:",
@@ -3156,23 +3036,32 @@ export let field_view = {
           "validators": {}
         },
         {
-          "name": "meta_result_repair_others",
+          "name": "meta_result_others",
           "type": "textarea",
           "ui": {
-            "label":"Other Remarks: (Specify Repair Result)",
-            "placeholder":"Other Remarks",
-            "description": "Leave blank if not repair result others",
+            "label":"Other Result:",
+            "placeholder":"N/A",
             "viewMode": {
               "advance": {
                 "div": ["col-md-6","col-sm-6"]
               }
             }
           },
-          "validators": {
-            "required": {
-              "conditionalExpression":"x => x.meta_result_repaired == \"others\""
+          "validators": {}
+        },
+        {
+          "name": "meta_result_remarks",
+          "type": "textarea",
+          "ui": {
+            "label":"Result Remarks:",
+            "placeholder":"Result Remarks",
+            "viewMode": {
+              "advance": {
+                "div": ["col-md-12","col-sm-12"]
+              }
             }
-          }
+          },
+          "validators": {}
         },
         {
           "name": "meta_repair_started_date",

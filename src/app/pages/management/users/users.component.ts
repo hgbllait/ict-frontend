@@ -123,7 +123,7 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
     this.formData = {
       button: this.form_actions.add,
       "endpoint": '',
-      "bindings": [["first_name", "last_name"], ["contact_number", "email"], "address", ["username", "password"]],
+      "bindings": [["first_name", "last_name"], ["email", "contact_number", "position"], "address", ["username", "password"]],
       "fields": [
         {
           "name": "id",
@@ -171,7 +171,7 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
             "placeholder":"Email",
             viewMode: {
               advance: {
-                div: ["col-md-6","col-sm-6"]
+                div: ["col-md-4","col-sm-4"]
               }
             },
           },
@@ -188,13 +188,29 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
             "placeholder":"Contact No.",
             viewMode: {
               advance: {
-                div: ["col-md-6","col-sm-6"]
+                div: ["col-md-4","col-sm-4"]
               }
             },
           },
           "validators": {
             "required": true,
             "number": true
+          }
+        },
+        {
+          "name": "position",
+          "type": "text",
+          "ui": {
+            "label":"Position",
+            "placeholder":"Position",
+            viewMode: {
+              advance: {
+                div: ["col-md-4","col-sm-4"]
+              }
+            },
+          },
+          "validators": {
+            "required": true
           }
         },
         {
@@ -323,7 +339,7 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
             this.formData = {
               button: this.form_actions.edit,
               "endpoint": '',
-              "bindings": [["first_name", "last_name"], ["contact_number"], "address"],
+              "bindings": [["first_name", "last_name"], ["contact_number", "position"], "address"],
               "fields": [
                 {
                   "name": "id",
@@ -337,9 +353,9 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
                   "ui": {
                     "label":"First Name",
                     "placeholder":"First name",
-                    viewMode: {
-                      advance: {
-                        div: ["col-md-6","col-sm-6"]
+                    "viewMode": {
+                      "advance": {
+                        "div": ["col-md-6","col-sm-6"]
                       }
                     },
                   },
@@ -353,9 +369,9 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
                   "ui": {
                     "label":"Last Name",
                     "placeholder":"Last name",
-                    viewMode: {
-                      advance: {
-                        div: ["col-md-6","col-sm-6"]
+                    "viewMode": {
+                      "advance": {
+                        "div": ["col-md-6","col-sm-6"]
                       }
                     },
                   },
@@ -369,15 +385,31 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
                   "ui": {
                     "label":"Contact No.",
                     "placeholder":"Contact No.",
-                    viewMode: {
-                      advance: {
-                        div: ["col-md-12","col-sm-12"]
+                    "viewMode": {
+                      "advance": {
+                        "div": ["col-md-6","col-sm-6"]
                       }
                     },
                   },
                   "validators": {
                     "required": true,
                     "number": true
+                  }
+                },
+                {
+                  "name": "position",
+                  "type": "text",
+                  "ui": {
+                    "label":"Position",
+                    "placeholder":"Position",
+                    "viewMode": {
+                      "advance": {
+                        "div": ["col-md-6","col-sm-6"]
+                      }
+                    },
+                  },
+                  "validators": {
+                    "required": true
                   }
                 },
                 {
