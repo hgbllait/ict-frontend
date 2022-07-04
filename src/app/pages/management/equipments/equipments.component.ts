@@ -319,7 +319,6 @@ export class EquipmentsComponent extends BasePage implements OnInit, OnDestroy {
         this.data_service.call(this.page.endpoints.fetch, {id: $event.value})
           .subscribe(result => {
             const result_data = this.getResultData(result, this.page.indexes);
-            console.log(result_data);
             this.data = result_data;
             this.formData.button = this.form_actions.edit;
             this.modalTitle = 'Update Equipment';

@@ -286,6 +286,7 @@ export let field = {
       ],
       "endpoint": "",
       "bindings": [
+        "file_link",
         ["meta_date_requested", "meta_date_needed"],
         ["meta_job_order_no", "meta_college"],
         "meta_hardware",
@@ -299,6 +300,20 @@ export let field = {
         [ "meta_repair_started_date", "meta_repair_started_time" , "meta_repair_ended_date", "meta_repair_ended_time"]
       ],
       "fields": [
+        {
+          "name": "file_link",
+          "type": "text",
+          "ui": {
+            "label":"File Link",
+            "placeholder":"File Link",
+            "viewMode": {
+              "advance": {
+                "div": ["col-md-12","col-sm-12"]
+              }
+            }
+          },
+          "validators": {}
+        },
         {
           "name": "meta_date_requested",
           "type": "date",

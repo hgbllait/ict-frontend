@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit {
     employee: {
       first_name: '...',
       last_name: '...',
+      position: '...',
       address: '...',
       email: '...',
       contact_number: '...'
@@ -109,7 +110,8 @@ export class ProfileComponent implements OnInit {
         this.form1.data = {
           first_name: result.data.user.employee.first_name,
           last_name: result.data.user.employee.last_name,
-          address: result.data.user.employee.address,
+          position: result.data.user.employee.position,
+          address: result.data.user.employee.address
         };
         this.form_data = {
           ...this.form_data,
@@ -132,7 +134,7 @@ export class ProfileComponent implements OnInit {
     this.form1.field = {
       "models": [],
       "endpoint": '',
-      "bindings": ["first_name", "last_name", "address"],
+      "bindings": ["first_name", "last_name", "position", "address"],
       "fields": [
         {
           "name": "id",
@@ -162,6 +164,22 @@ export class ProfileComponent implements OnInit {
           "ui": {
             "label": "Last Name",
             "placeholder": "Last Name",
+            viewMode: {
+              advance: {
+                div: ["col-md-12", "col-sm-12"]
+              }
+            },
+          },
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "position",
+          "type": "text",
+          "ui": {
+            "label": "Position",
+            "placeholder": "Position",
             viewMode: {
               advance: {
                 div: ["col-md-12", "col-sm-12"]
