@@ -7,19 +7,19 @@
             <div class="brand-logo">
             </div>
             <h4 class="text-center pb-4">ICT Resource Management System</h4>
-            <h6 class="fw-light">Sign in to continue.</h6>
+            <h6 class="fw-light">Use HRIS credentials to continue.</h6>
             <form (ngSubmit)="login()" [formGroup]="loginForm" class="pt-3">
               <div *ngIf="alert.shown" class="alert alert-{{alert.type}}" role="alert">
                 {{alert.messages}}
               </div>
               <div class="form-group">
-                <input  formControlName="username"
-                        type="email"
+                <input  formControlName="employee_id"
+                        type="text"
                         class="form-control form-control-lg"
-                        placeholder="Username">
-                <label *ngIf="submitted && loginForm.controls['username'].errors"
+                        placeholder="Employee ID">
+                <label *ngIf="submitted && loginForm.controls['employee_id'].errors"
                        class="error mt-2 text-danger">
-                  <ng-container *ngIf="submitted && loginForm.controls['username'].errors.required">This field is required.
+                  <ng-container *ngIf="submitted && loginForm.controls['employee_id'].errors.required">This field is required.
                   </ng-container>
                 </label>
               </div>

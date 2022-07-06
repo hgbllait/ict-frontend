@@ -123,7 +123,7 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
     this.formData = {
       button: this.form_actions.add,
       "endpoint": '',
-      "bindings": [["first_name", "last_name"], ["email", "contact_number", "position"], "address", ["username", "password"]],
+      "bindings": [["first_name", "last_name"], ["pmaps_id", "email", "contact_number", "position"], "address"],
       "fields": [
         {
           "name": "id",
@@ -164,6 +164,22 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
           }
         },
         {
+          "name": "pmaps_id",
+          "type": "text",
+          "ui": {
+            "label":"Employee ID",
+            "placeholder":"Employee ID",
+            viewMode: {
+              advance: {
+                div: ["col-md-3","col-sm-3"]
+              }
+            },
+          },
+          "validators": {
+            "required": true,
+          }
+        },
+        {
           "name": "email",
           "type": "email",
           "ui": {
@@ -171,7 +187,7 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
             "placeholder":"Email",
             viewMode: {
               advance: {
-                div: ["col-md-4","col-sm-4"]
+                div: ["col-md-3","col-sm-3"]
               }
             },
           },
@@ -188,7 +204,7 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
             "placeholder":"Contact No.",
             viewMode: {
               advance: {
-                div: ["col-md-4","col-sm-4"]
+                div: ["col-md-3","col-sm-3"]
               }
             },
           },
@@ -205,7 +221,7 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
             "placeholder":"Position",
             viewMode: {
               advance: {
-                div: ["col-md-4","col-sm-4"]
+                div: ["col-md-3","col-sm-3"]
               }
             },
           },
@@ -228,39 +244,7 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
           "validators": {
             "required": true,
           }
-        },
-        {
-          "name": "username",
-          "type": "text",
-          "ui": {
-            "label":"Username",
-            "placeholder":"Username",
-            viewMode: {
-              advance: {
-                div: ["col-md-6","col-sm-6"]
-              }
-            },
-          },
-          "validators": {
-            "required": true,
-          }
-        },
-        {
-          "name": "password",
-          "type": "password",
-          "ui": {
-            "label":"Password",
-            "placeholder":"Password",
-            viewMode: {
-              advance: {
-                div: ["col-md-6","col-sm-6"]
-              }
-            },
-          },
-          "validators": {
-            "required": true,
-          }
-        },
+        }
       ]
     };
     this.modalTitle = 'Add User';
@@ -343,6 +327,12 @@ export class UsersComponent extends BasePage implements OnInit, OnDestroy {
               "fields": [
                 {
                   "name": "id",
+                  "type": "hidden",
+                  "validators": {},
+                  "ui": {}
+                },
+                {
+                  "name": "pmaps_id",
                   "type": "hidden",
                   "validators": {},
                   "ui": {}
