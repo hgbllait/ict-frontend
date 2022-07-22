@@ -204,9 +204,10 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
     this.form1 = {
       data: {},
       group: {
-        invalid: true
+        invalid: true,
+        touched: false
       },
-      field: {
+      "field": {
         "models": [
           { "modelName": 'formTypeModel', "model": FormTypeModel, "arguments": [form_json] },
         ],
@@ -221,9 +222,9 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
               "label":"Form Name",
               "placeholder":"Form Name",
               "description": "Anything you want to name this form.",
-              viewMode: {
-                advance: {
-                  div: ["col-md-12","col-sm-12"]
+              "viewMode": {
+                "advance": {
+                  "div": ["col-md-12","col-sm-12"]
                 }
               },
             },
@@ -235,9 +236,9 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
             "ui": {
               "label":"Date Effective",
               "placeholder":"Date Effective",
-              viewMode: {
-                advance: {
-                  div: ["col-md-12","col-sm-12"]
+              "viewMode": {
+                "advance": {
+                  "div": ["col-md-12","col-sm-12"]
                 }
               },
             },
@@ -285,9 +286,9 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
             "ui": {
               "label":"Revision No.:",
               "placeholder":"Revision No.",
-              viewMode: {
-                advance: {
-                  div: ["col-md-12","col-sm-12"]
+              "viewMode": {
+                "advance": {
+                  "div": ["col-md-12","col-sm-12"]
                 }
               },
             },
@@ -299,9 +300,9 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
             "ui": {
               "label":"Issue Status:",
               "placeholder":"Issue Status",
-              viewMode: {
-                advance: {
-                  div: ["col-md-12","col-sm-12"]
+              "viewMode": {
+                "advance": {
+                  "div": ["col-md-12","col-sm-12"]
                 }
               },
             },
@@ -313,7 +314,8 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
     this.form2 = {
       data: {},
       group: {
-        invalid: true
+        invalid: true,
+        touched: false
       },
       field: {},
       field_array: {},
@@ -322,7 +324,8 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
     this.form3 = {
       data: {},
       group: {
-        invalid: true
+        invalid: true,
+        touched: false
       },
       field: {}
     };
@@ -493,17 +496,6 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
         this.form1.data = $event.data;
         this.form2.data = {};
         this.form3.data = {};
-        console.log(this.form2);
-        // @ts-ignore
-        if(this.form2.group.touched){
-          // @ts-ignore
-          this.form2.group.reset();
-        }
-        // @ts-ignore
-        if(this.form3.group.touched){
-          // @ts-ignore
-          this.form3.group.reset();
-        }
         if (field.hasOwnProperty($event.data.type_id)) {
           // Reset Form Data
           for (var key in this.form_data) {
@@ -532,15 +524,7 @@ export class FormRequestCreateComponent extends BasePage implements OnInit, OnDe
         break
       case 2:
         this.form2.group = $event.form;
-        this.form2.data = {
-          ...this.form2.data,
-          ...$event.data,
-        };
-        // @ts-ignore
-        if(this.form3.group.touched){
-          // @ts-ignore
-          this.form3.group.reset();
-        }
+        this.form2.data = $event.data;
         break;
       case 3:
         this.form3.group = $event.form;

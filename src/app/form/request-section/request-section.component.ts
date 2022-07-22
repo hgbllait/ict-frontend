@@ -337,10 +337,7 @@ export class RequestSectionComponent extends BasePage implements OnInit, OnDestr
         break
       case 2:
         this.form2.group = $event.form;
-        this.form2.data = {
-          ...this.form2.data,
-          ...$event.data,
-        };
+        this.form2.data = $event.data;
         // @ts-ignore
         if(this.form3.group.touched){
           // @ts-ignore

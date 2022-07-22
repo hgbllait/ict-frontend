@@ -67,8 +67,8 @@
                 <text *ngIf="form_alert.shown">{{form_alert.messages}}</text>
               </div>
 
-              <button class="btn btn-primary {{(form1.group.touched && form1.group.status == 'INVALID')
-                    || (form2.group.touched && form2.group.status == 'INVALID') ? 'disabled' : ''}}" (click)="onSubmit()">Update</button>
+              <button class="btn btn-primary {{(form1.group.touched && form1.group.invalid)
+                    || (form2.group.touched && form2.group.invalid) ? 'disabled' : ''}}" (click)="onSubmit()">Update</button>
             </div>
             <div class="mt-4 py-2 border-top border-bottom">
               <div class="home-tab">

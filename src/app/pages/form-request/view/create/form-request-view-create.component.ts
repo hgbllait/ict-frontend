@@ -253,7 +253,8 @@ export class FormRequestViewCreateComponent extends BasePage implements OnInit, 
     this.form1 = {
       data: {},
       group: {
-        invalid: true
+        invalid: true,
+        touched: false
       },
       field: {
         "models": [
@@ -361,7 +362,8 @@ export class FormRequestViewCreateComponent extends BasePage implements OnInit, 
     this.form2 = {
       data: {},
       group: {
-        invalid: true
+        invalid: true,
+        touched: false
       },
       field: {},
       field_array: {},
@@ -370,7 +372,8 @@ export class FormRequestViewCreateComponent extends BasePage implements OnInit, 
     this.form3 = {
       data: {},
       group: {
-        invalid: true
+        invalid: true,
+        touched: false
       },
       field: {},
     };
@@ -486,7 +489,6 @@ export class FormRequestViewCreateComponent extends BasePage implements OnInit, 
   }
 
   onSubmit($form){
-    console.log( $form );
     this.form_data = {
       ...this.form_data,
       ...$form
@@ -608,18 +610,7 @@ export class FormRequestViewCreateComponent extends BasePage implements OnInit, 
         this.form2.data = {
           'meta_college': this.result_data.metas.meta_request_college
         };
-        console.log(this.form2);
         this.form3.data = {};
-        // @ts-ignore
-        if(this.form2.group.touched){
-          // @ts-ignore
-          this.form2.group.reset();
-        }
-        // @ts-ignore
-        if(this.form3.group.touched){
-          // @ts-ignore
-          this.form3.group.reset();
-        }
         if (field.hasOwnProperty($event.data.type_id)) {
           // Reset Form Data
           for (var key in this.form_data) {
@@ -672,17 +663,11 @@ export class FormRequestViewCreateComponent extends BasePage implements OnInit, 
         break
       case 2:
         this.form2.group = $event.form;
-        this.form2.data = {
-          ...this.form2.data,
-          ...$event.data,
-        };
+        this.form2.data = $event.data;
         break;
       case 3:
         this.form3.group = $event.form;
-        this.form3.data = {
-          ...this.form3_default,
-          ...$event.data,
-        };
+        this.form3.data = $event.data;
         break;
       case 4:
         this.form2.data = {
@@ -702,7 +687,6 @@ export class FormRequestViewCreateComponent extends BasePage implements OnInit, 
           "meta_property_no": $event.data.serial_no,
           "meta_brand_model": $event.data.brand
         };
-
         this.form2.data = {
           ...this.form2.data,
           ...value,
@@ -720,7 +704,6 @@ export class FormRequestViewCreateComponent extends BasePage implements OnInit, 
             "meta_property_no": request_data.serial_no,
             "meta_brand_model": request_data.brand
           };
-
           this.form2.data = {
             ...this.form2.data,
             ...value,

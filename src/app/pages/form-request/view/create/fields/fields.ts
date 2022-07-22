@@ -181,9 +181,7 @@ export let field = {
               }
             }
           },
-          "validators": {
-            "required": true
-          }
+          "validators": {}
         },
         {
           "name": "meta_action_taken",

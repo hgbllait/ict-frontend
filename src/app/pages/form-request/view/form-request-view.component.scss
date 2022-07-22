@@ -66,3 +66,7 @@
 .btn.btn-icons .mdi {
   font-size: .9em !important;
 }
+
+::ng-deep .modal-priority {
+  z-index: 99999;
+}

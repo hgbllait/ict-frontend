@@ -7,7 +7,7 @@ import {
   TemplateRef,
   Input,
   Output,
-  EventEmitter,
+  EventEmitter, ElementRef,
 } from '@angular/core';
 import { FormStepDirective } from '../../directives/form-step.directive'
 
@@ -25,7 +25,7 @@ export class MutiStepFormComponent implements OnInit, AfterContentInit {
   step = 0;
   currentView: TemplateRef<any>
 
-  constructor() {
+  constructor(private el: ElementRef) {
     this.nextStepHandle = this.nextStepHandle.bind(this)
     this.backStepHandle = this.backStepHandle.bind(this)
   }
@@ -44,7 +44,10 @@ export class MutiStepFormComponent implements OnInit, AfterContentInit {
 
   nextStepHandle(value, group: any = { invalid: true }){
     group.submitted = true;
-    if(group.invalid) return;
+    if(group.invalid) {
+      this.scrollToFirstInvalidControl();
+      return;
+    }
     this.step++;
     value['step'] = this.step;
     this.nextAction.emit(value)
@@ -54,6 +57,15 @@ export class MutiStepFormComponent implements OnInit, AfterContentInit {
   backStepHandle() {
     this.step--;
     this.renderForm();
+  }
+
+  scrollToFirstInvalidControl() {
+    const firstInvalidControl: HTMLElement = this.el.nativeElement.querySelector(
+      "form .is-invalid"
+    );
+
+    firstInvalidControl.focus();
+
   }
 
 }

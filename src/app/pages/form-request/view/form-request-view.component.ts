@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {
   DocumentEditorContainerComponent,
   DocumentEditorKeyDownEventArgs,
@@ -16,7 +16,7 @@ import {field, fill_out, field_view} from "./fields/fields";
 import {BasePage} from "../../../@globals/baseclasses/pages/base.page";
 import {AuthenticationService} from "../../../@globals/services/api/auth";
 import {Subject} from "rxjs";
-import Swal from "sweetalert2";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 declare const $:any;
 @Component({
@@ -47,7 +47,7 @@ export class FormRequestViewComponent extends BasePage implements OnInit {
   jobOrderId: any;
   jobOrderNo: any;
   hasMaterials: boolean = false;
-  formState: boolean = false;
+  formState: boolean = true;
   formState2: boolean = true;
   isPaperless: boolean = true;
   forms: any;
@@ -67,8 +67,8 @@ export class FormRequestViewComponent extends BasePage implements OnInit {
   form = {
     data: {},
     group: {
-      touched: false,
-      invalid: true
+      invalid: true,
+      touched: false
     },
     field: {},
     field_array: {},
@@ -83,22 +83,165 @@ export class FormRequestViewComponent extends BasePage implements OnInit {
   form_signatory = {
     data: {},
     group: {
-      invalid: true
+      invalid: true,
+      touched: false
     },
     field: {},
     field_array: {},
     data_array: {}
+  };
+  form_equipment: any = {
+    data: {},
+    field: {
+      button: [
+        {
+          text: 'Submit',
+          status: 'primary',
+          target: 'add_equipment',
+          icon: 'ti-plus btn-icon-prepend',
+          size: 'medium',
+          display: true,
+          call: 'v1.definitions.equipments.define',
+          action_type: 'define',
+        },
+      ],
+      "endpoint": '',
+      "bindings": ["alias", "equipment", ["serial_no", "brand"], "location", "details"],
+      "fields": [
+        {
+          "name": "id",
+          "type": "hidden",
+          "validators": {},
+          "ui": {}
+        },
+        {
+          "name": "alias",
+          "type": "text",
+          "ui": {
+            "label":"Alias:",
+            "placeholder":"Alias",
+            viewMode: {
+              advance: {
+                div: ["col-md-12","col-sm-12"]
+              }
+            },
+          },
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "equipment",
+          "type": "select",
+          "source": [
+            { "value": "System Unit", "text": "System Unit" },
+            { "value": "Laptop", "text": "Laptop" },
+            { "value": "Printer/Scanner", "text": "Printer/Scanner" },
+            { "value": "UPS/AVR", "text": "UPS/AVR" },
+            { "value": "Biometric", "text": "Biometric" },
+            { "value": "Switch/Routers/AP", "text": "Switch/Routers/AP" },
+            { "value": "CCTV", "text": "CCTV" },
+            { "value": "Projector", "text": "Projector" },
+            { "value": "Turnstile", "text": "Turnstile" },
+            { "value": "SIP PHONE", "text": "SIP PHONE" }
+          ],
+          "ui": {
+            "label": 'Equipment',
+            "placeholder": 'Select Equipment',
+            "viewMode": {
+              "advance": {
+                "div": ["col-md-12","col-sm-12"]
+              }
+            },
+          },
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "serial_no",
+          "type": "text",
+          "ui": {
+            "label":"Property/Serial No.:",
+            "placeholder":"Property/Serial No.",
+            viewMode: {
+              advance: {
+                div: ["col-md-6","col-sm-6"]
+              }
+            },
+          },
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "brand",
+          "type": "text",
+          "ui": {
+            "label":"Brand/Model:",
+            "placeholder":"Brand/Model",
+            viewMode: {
+              advance: {
+                div: ["col-md-6","col-sm-6"]
+              }
+            },
+          },
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "location",
+          "type": "text",
+          "ui": {
+            "label":"Location:",
+            "placeholder":"Location",
+            viewMode: {
+              advance: {
+                div: ["col-md-12","col-sm-12"]
+              }
+            },
+          },
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "details",
+          "type": "textarea",
+          "additionalConfig": {
+            "prop": {
+              "rows": 7,
+              "cols": 50
+            }
+          },
+          "ui": {
+            "label":"Details:",
+            "placeholder":"Details",
+            "description": "Leave blank if not applicable.",
+            "viewMode": {
+              "advance": {
+                "div": ["col-md-12","col-sm-12"]
+              }
+            }
+          },
+          "validators": {}
+        },
+      ]
+    }
   };
   status: any;
   templateData = {};
   templateFile: any;
   user: User;
   constructor(
+    private el: ElementRef,
     public authService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private data_service: RequestFormService,
     private titleService: Title,
-    private router: Router) {
+    private router: Router,
+    private modalService: NgbModal) {
     super(authService);
     this.serviceLink = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     this.titleService.setTitle("Form Request | "+`${environment.APP_NAME}`);
@@ -242,10 +385,36 @@ export class FormRequestViewComponent extends BasePage implements OnInit {
         }
         else {
           this.isDirector = result.data.is_director;
-          this.onClickForm();
+          this.formState = false;
+          this.form.data = this.templateData;
+          if (field.hasOwnProperty(this.typeId)) {
+            if(this.typeId == 2
+              || this.typeId == 5) {
+              this.hasMaterials = true
+              this.form.field_array = field[this.typeId].field_array;
+            }
+            else{
+              this.hasMaterials = false;
+              this.form.field_array = {};
+            }
+
+            this.form.field = field[this.typeId].meta;
+            if(this.typeId == 2
+              || this.typeId == 6
+              || this.typeId == 7) {
+              if(this.isDirector){
+                this.form.field_array = {};
+                this.form.field = fill_out[this.typeId].meta;
+
+              }
+
+            }
+          }
+          setTimeout(() => {
+            this.formState = true
+          }, 100);
           this.isFormPending = true;
         }
-        this.formState = true;
       }
     }, async (error) => {
       this.page_alert = {
@@ -461,6 +630,12 @@ export class FormRequestViewComponent extends BasePage implements OnInit {
             type: 'danger',
           };
         });
+    } else {
+      const firstInvalidControl: HTMLElement = this.el.nativeElement.querySelector(
+        "form .is-invalid"
+      );
+
+      firstInvalidControl.focus();
     }
   }
 
@@ -575,37 +750,11 @@ export class FormRequestViewComponent extends BasePage implements OnInit {
 
   onClickForm(){
     $("#theme-settings").toggleClass("open");
-    this.form.data = this.templateData;
-    if (field.hasOwnProperty(this.typeId)) {
-      if(this.typeId == 2
-        || this.typeId == 5) {
-        this.hasMaterials = true
-        this.form.field_array = field[this.typeId].field_array;
-      }
-      else{
-        this.hasMaterials = false;
-        this.form.field_array = {};
-      }
-
-      this.form.field = field[this.typeId].meta;
-      if(this.typeId == 2
-        || this.typeId == 6
-        || this.typeId == 7) {
-        if(this.isDirector){
-          this.form.field_array = {};
-          this.form.field = fill_out[this.typeId].meta;
-
-        }
-
-      }
-    }
-    this.formState = true;
   }
 
   onClickSignatory(){
     $("#signatory-settings").toggleClass("open");
     this.form.data = this.templateData;
-    this.formState = true;
   }
 
   onCloseForm(){
@@ -691,14 +840,23 @@ export class FormRequestViewComponent extends BasePage implements OnInit {
     })
   }
 
+  addEquipment(content){
+    this.clearAlert();
+    this.form_equipment.data = {};
+    this.modalReference = this.modalService.open(content, { size: 'md', windowClass: 'modal-priority' });
+  }
+
+  searchEquipment(content){
+    this.clearAlert();
+    this.form_equipment.data = {};
+    this.modalReference = this.modalService.open(content, { size: 'lg', windowClass: 'modal-priority' });
+  }
+
   handleData( $event: {data, form}, action: any = 0 ) {
     switch ( action ) {
       default:
         this.form.group = $event.form;
-        this.form.data = {
-          ...this.form.data,
-          ...$event.data,
-        };
+        this.form.data = $event.data;
         break;
       case 'nested':
         if(this.form.group.constructor.name !== "RxFormGroup") {
@@ -834,6 +992,44 @@ export class FormRequestViewComponent extends BasePage implements OnInit {
             type: 'danger',
           };
         });
+        break;
+      case 'table_choose_equipment':
+        this.formState = false;
+        let value = {
+          "meta_property_no": $event.data.serial_no,
+          "meta_brand_model": $event.data.brand
+        };
+        this.form.data = {
+          ...this.form.data,
+          ...value,
+        };
+        this.modalService.dismissAll();
+        setTimeout(() => {
+          this.formState = true
+        }, 100);
+        break;
+      case 'add_equipment':
+        if($event.data.code == 200) {
+          this.formState = false;
+          let request_data = $event.data.data.equipment;
+          let value = {
+            "meta_property_no": request_data.serial_no,
+            "meta_brand_model": request_data.brand
+          };
+          this.form.data = {
+            ...this.form.data,
+            ...value,
+          };
+          this.modalService.dismissAll();
+          setTimeout(() => {
+            this.formState = true
+          }, 100);
+        } else {
+          this.form_alert = {
+            shown: true,
+            messages: $event.data.message
+          }
+        }
         break;
     }
   }

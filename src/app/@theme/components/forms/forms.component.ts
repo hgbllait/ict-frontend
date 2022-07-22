@@ -63,6 +63,11 @@ export class FormsComponent extends BaseForm implements OnInit, OnChanges {
     this.formGroup = this.rxFormBuild.formGroup;
     this.resetForm();
     this.formGroup.patchValue(this.data);
+    this.dataChanges.emit({
+      form: this.formGroup,
+      value: 'success',
+      data: this.data
+    });
     this.formGroup.valueChanges.subscribe(value => {
       this.data = value;
       Object.keys(this.data).forEach(key => {

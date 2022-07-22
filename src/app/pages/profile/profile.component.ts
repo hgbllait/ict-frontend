@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
   form1 = {
     data: {},
     group: {
-      status: "INVALID",
+      invalid: true,
       touched: false
     },
     field: {},
@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
   form2 = {
     data: {},
     group: {
-      status: "INVALID",
+      invalid: true,
       touched: false
     },
     field: {},

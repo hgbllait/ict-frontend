@@ -26,7 +26,8 @@
                     <a class="disabled" role="menuitem">Previous</a>
                   </li>
                   <li>
-                    <a (click)="nextStepHandle(form1.data, form1.group)" role="menuitem">Next</a>
+                    <a (click)="nextStepHandle(form1.data, form1.group)"
+                       role="menuitem">Next</a>
                   </li>
                 </ul>
               </div>
@@ -64,7 +65,8 @@
                     <a (click)="backStepHandle()" role="menuitem">Previous</a>
                   </li>
                   <li>
-                    <a (click)="nextStepHandle(form2.data, form2.group)" role="menuitem">Next</a>
+                    <a (click)="nextStepHandle(form2.data, form2.group)"
+                       role="menuitem">Next</a>
                   </li>
                 </ul>
               </div>
@@ -87,7 +89,7 @@
                   <li>
                     <a (click)="backStepHandle()" role="menuitem">Previous</a>
                   </li>
-                    <a #FinalClick class="d-none" (click)="nextStepHandle(form3.data, {invalid: false})"></a>
+                    <a #FinalClick class="d-none" (click)="nextStepHandle(form3.data, {status: false})"></a>
                   <li>
                     <a (click)="onSubmit(form3.data)" role="menuitem">Submit</a>
                   </li>

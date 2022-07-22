@@ -5,10 +5,11 @@
   </ul>
   <div>
     <div class="btn-wrapper">
-      <button *ngIf="requestApproverId && isServiceRequest" (click)="handleAction({action: 'approver_approve', value: 'submit', data: { id: requestApproverId, flow_control_request_id: requestId }})" class="btn btn-info me-0" href="javascript:void(0);">Submit Request</button>
-      <a *ngIf="isContinuation" (click)="changeRoute('/pages/form-request/view/'+id+'/create')" class="btn btn-primary text-white me-0">Process Request</a>
       <a *ngIf="jobOrderId && jobOrderNo" [routerLink]="['/pages/document', jobOrderNo]"  href="" class="btn btn-outline-dark me-1" target="_blank"><i class="icon-printer"></i> Document</a>
       <a *ngIf="jobOrderId && jobOrderNo" [routerLink]="['/pages/form-request/view', jobOrderId]"  href="" class="btn btn-warning text-white me-0" target="_blank">{{jobOrderNo}}</a>
+      <a *ngIf="requestApproverId && isServiceRequest" (click)="handleAction({action: 'approver_approve', value: 'submit', data: { id: requestApproverId, flow_control_request_id: requestId }})" class="btn btn-otline-dark me-1" href="javascript:void(0);"><i class=" icon-share-alt"></i> Submit Request</a>
+      <a *ngIf="isContinuation" (click)="changeRoute('/pages/form-request/view/'+id+'/create')" class="btn btn-primary text-white me-0"><i class="icon-refresh"></i> Process Request</a>
+      <a *ngIf="isFormPending && userId" (click)="onClickForm()" class="btn btn-primary text-white me-0" href="javascript:void(0);"><i class="icon-note"></i> Update Form</a>
     </div>
   </div>
 </div>
@@ -130,15 +131,14 @@
       <div *ngIf="!isFormPending && isPaperless" id="download-trigger" (click)="onDownload()" data-toggle="tooltip" data-placement="top" title="Download">
         <i class="ti-import"></i>
       </div>
-      <div *ngIf="isFormPending && userId" id="settings-trigger" (click)="onClickForm()" data-toggle="tooltip" data-placement="top" title="Update Form">
-        <i class="ti-settings"></i>
-      </div>
       <div *ngIf="isFormPending && userId" id="theme-settings" class="settings-panel">
         <div class="modal-header header sticky">
           <h5 class="modal-title">Form - Update</h5>
           <div class="button-group">
-            <button type="button" (click)="onUpdate()" class="btn btn-primary btn-fw close btn-sm {{form.group.invalid ? 'disabled' : ''}}">
+            <button type="button" (click)="onUpdate()" class="btn btn-primary btn-fw btn-sm me-1 close">
               <span aria-hidden="true">Update</span>
+            </button>
+            <button *ngIf="typeId == 2" (click)="searchEquipment(equipment)" class="btn btn-warning btn-fw btn-sm me-1 add">Select Equipment
             </button>
             <button type="button" class="btn btn-sm btn-dark" (click)="onCloseForm()">
               <span aria-hidden="true">-</span>
@@ -147,8 +147,8 @@
         </div>
         <div class="card card-scrolalble">
           <div class="card-body">
-            <ng-container *ngIf="formState">
               <ngx-theme-forms
+                *ngIf="formState"
                 [data]='form.data'
                 [form]="form.field"
                 (actionExecuted)='handleAction( $event )'
@@ -157,7 +157,6 @@
                                  [data]='form.data_array'
                                  [form]="form.field_array"
                                  (dataChanges)='handleData( $event, "nested" )'></theme-nested-form>
-            </ng-container>
           </div>
         </div>
       </div>
@@ -165,7 +164,7 @@
         <div class="modal-header header sticky">
           <h5 class="modal-title">Signatory - Update</h5>
           <div class="button-group">
-            <button type="button" (click)="onSignatoryUpdate()" class="btn btn-primary btn-fw close btn-sm {{form_signatory.group.invalid ? 'disabled' : ''}}">
+            <button type="button" (click)="onSignatoryUpdate()" class="btn btn-primary btn-fw close btn-sm">
               <span aria-hidden="true">Update</span>
             </button>
             <button type="button" class="btn btn-sm btn-dark" (click)="onCloseForm()">
@@ -188,6 +187,52 @@
     </div>
   </div>
 </div>
+
+<ng-template #equipment let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Search Equipment</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body home-tab">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="card-title">List of Equipments</h4>
+          <div class="btn-wrapper text-right justify-content-end" >
+            <button (click)="addEquipment(addequipment)" class="btn btn-primary text-white me-0">
+              <i class="icon-form_type-follow"></i> Add Equipment
+            </button>
+          </div>
+        </div>
+        <ngx-data-table
+          [updateTableData]="updateTableTrigger.asObservable()"
+          [endpoint]="'v1.definitions.equipments.all'"
+          (actionExecuted)="handleAction( $event )"></ngx-data-table>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #addequipment let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add Equipment</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="form_alert.shown" class="alert alert-danger" role="alert">
+      {{form_alert.messages}}
+    </div>
+    <form>
+      <div class="mb-3">
+        <ngx-theme-forms
+          [data]='form_equipment.data'
+          [form]="form_equipment.field"
+          [readonly]="false"
+          (actionExecuted)='handleAction( $event )'></ngx-theme-forms>
+      </div>
+    </form>
+  </div>
+</ng-template>
 
 <ng-template #FormError>
   <div class="alert alert-danger" role="alert">
