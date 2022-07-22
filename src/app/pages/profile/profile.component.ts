@@ -39,7 +39,8 @@ export class ProfileComponent implements OnInit {
   form1 = {
     data: {},
     group: {
-      invalid: true
+      status: "INVALID",
+      touched: false
     },
     field: {},
     field_array: {},
@@ -48,7 +49,8 @@ export class ProfileComponent implements OnInit {
   form2 = {
     data: {},
     group: {
-      invalid: true
+      status: "INVALID",
+      touched: false
     },
     field: {},
     field_array: {},
@@ -106,23 +108,15 @@ export class ProfileComponent implements OnInit {
       if (result.code === 200) {
         this.open = true;
         this.user = result.data.user;
-        this.form_data['id'] = result.data.user.employee.id;
         this.form1.data = {
+          id: result.data.user.employee.id,
           first_name: result.data.user.employee.first_name,
           last_name: result.data.user.employee.last_name,
           position: result.data.user.employee.position,
           address: result.data.user.employee.address
         };
-        this.form_data = {
-          ...this.form_data,
-          ...this.form1.data
-        }
         this.form2.data['email'] = result.data.user.employee.email;
         this.form2.data['contact_number'] = result.data.user.employee.contact_number;
-        this.form_data = {
-          ...this.form_data,
-          ...this.form2.data
-        }
         this.defaultESig = result.data.signature;
         this.dtTrigger.next();
       }
@@ -232,7 +226,8 @@ export class ProfileComponent implements OnInit {
             },
           },
           "validators": {
-            "required": true
+            "required": true,
+            "email": true
           }
         },
         {
@@ -266,7 +261,6 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form_data);
     this.data_service.execute(
       {
         slug: 'v1.employees.define',
@@ -276,7 +270,10 @@ export class ProfileComponent implements OnInit {
           type: 'none',
         },
       },
-      this.form_data
+      {
+        ...this.form1.data,
+        ...this.form2.data
+      }
     ).subscribe(async (result: StandardResponse) => { // Success
       this.form_alert = {
         shown: true,
@@ -294,17 +291,10 @@ export class ProfileComponent implements OnInit {
   }
 
   handleData( $event: {data, form}, step ) {
-    this.form_data = {
-      ...this.form_data,
-      ...$event.data
-    }
     switch ( step ) {
       case 1:
         this.form1.group = $event.form;
-        this.form1.data = {
-          ...this.form1.data,
-          ...$event.data,
-        };
+        this.form1.data = $event.data;
         break;
       case 2:
         this.form2.group = $event.form;
