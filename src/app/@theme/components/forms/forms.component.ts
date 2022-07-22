@@ -157,7 +157,6 @@ export class FormsComponent extends BaseForm implements OnInit, OnChanges {
 
     let value;
     if ($event.action_type === 'define') {
-      console.log('asd', this.formGroup.value, this.data)
       let form_data = this.formGroup.value;
 
       if (this.formGroup.value !== undefined
